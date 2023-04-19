@@ -1,0 +1,7 @@
+dist
+yarn-error.log
+node_modules
+shared
+stems
+test-reports
+.chrome

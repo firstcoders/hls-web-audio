@@ -1,0 +1,37 @@
+{
+  "name": "@soundws/hls",
+  "author": "Sound Web Services, LTD",
+  "version": "2.0.0-beta.0",
+  "license": "UNLICENCED",
+  "private": true,
+  "dependencies": {
+    "m3u8-parser": "^4.7.1"
+  },
+  "devDependencies": {
+    "@soundws/babel-config": "^1.0.2-beta.0",
+    "@soundws/eslint-config": "^1.0.3-beta.0",
+    "assert": "^2.0.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "coverage-istanbul-loader": "^3.0.3",
+    "cross-env": "^7.0.2",
+    "fetch-mock": "^9.3.1",
+    "karma": "^6.3.16",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage-istanbul-reporter": "^3.0.2",
+    "karma-firefox-launcher": "^2.1.2",
+    "karma-mocha": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-webpack": "^5.0.0",
+    "lint-staged": "^13.0.3",
+    "mocha": "^9.2.1",
+    "puppeteer": "^13.3.2",
+    "sinon": "^13.0.1",
+    "webpack": "^5.73.0"
+  },
+  "scripts": {
+    "watch": "cross-env NODE_ENV=development webpack --watch --mode development",
+    "test": "cross-env NODE_ENV=test COVERAGE=true karma start",
+    "qa": "eslint \"src/**/*.js\"",
+    "precommit": "lint-staged"
+  }
+}
