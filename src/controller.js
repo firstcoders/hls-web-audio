@@ -1,4 +1,4 @@
-import { Observer } from '@soundws/utils';
+import Observer from './observer';
 import AudioContext from './audio-context';
 import { fadeIn, fadeOut } from './fade';
 

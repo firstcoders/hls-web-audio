@@ -1,0 +1,9 @@
+## Licence
+
+Copyright 2019-2022 Sound Web Services LTD - All Rights Reserved
+
+This software package is available under a commercial license.
+
+Unauthorized distribution or use of this software, via any medium is strictly prohibited.
+
+Proprietary and confidential.

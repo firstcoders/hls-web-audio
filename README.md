@@ -1,4 +1,4 @@
-# @soundws/hls
+# @soundws/hls-web-audio
 
 A package allowing for playing audio through the [HLS protocol](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) using the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API).
 
