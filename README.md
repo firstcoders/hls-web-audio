@@ -1,4 +1,6 @@
-# @soundws/hls-web-audio
+> This repo is a subtree split of our monorepo which will be made public in due course. We cannot process any pull-requests to this repo. Please contact us for help.
+
+# hls-web-audio
 
 A package allowing for playing audio through the [HLS protocol](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) using the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API).
 
