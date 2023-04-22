@@ -11,6 +11,15 @@
     "type": "git",
     "url": "https://github.com/sound-ws/hls-web-audio.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "src",
+    "COPYING",
+    "CHANGELOG.md",
+    "index.js"
+  ],
   "dependencies": {
     "m3u8-parser": "^4.7.1"
   },
@@ -18,7 +27,8 @@
     "hls",
     "m3u8",
     "web-audio",
-    "stems"
+    "stems",
+    "streaming"
   ],
   "devDependencies": {
     "@babel/preset-env": "^7.21.4",
