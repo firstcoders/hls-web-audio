@@ -4,7 +4,7 @@
   "bugs": "https://github.com/sound-ws/hls-web-audio/issues",
   "homepage": "https://github.com/sound-ws/hls-web-audio",
   "version": "2.0.0-beta.1",
-  "license": "GPL-3.0-or-later",
+  "license": "GPLv3",
   "type": "module",
   "private": true,
   "repository": {
