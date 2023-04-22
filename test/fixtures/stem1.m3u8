@@ -4,9 +4,9 @@
 #EXT-X-ALLOW-CACHE:YES
 #EXT-X-TARGETDURATION:11
 #EXTINF:10.005333,
-http://localhost:9876/base/test/fixtures/stem1_segment1.mp3
+http://localhost:9876/test/fixtures/stem1_segment1.mp3
 #EXTINF:10.005333,
-http://localhost:9876/base/test/fixtures/stem1_segment2.mp3
+http://localhost:9876/test/fixtures/stem1_segment2.mp3
 #EXTINF:10.005333,
-http://localhost:9876/base/test/fixtures/stem1_segment3.mp3
+http://localhost:9876/test/fixtures/stem1_segment3.mp3
 #EXT-X-ENDLIST

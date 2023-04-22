@@ -2,9 +2,6 @@ import Observer from './observer';
 import AudioContext from './audio-context';
 import { fadeIn, fadeOut } from './fade';
 
-// Fading to zero doesnt work
-// const ZERO = 0.00001;
-
 /**
  * A controller is used to control the playback of one or more HLS tracks
  * @class Controller

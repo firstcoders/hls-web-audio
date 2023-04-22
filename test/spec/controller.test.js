@@ -1,4 +1,4 @@
-import assert from 'assert';
+import { expect } from '@bundled-es-modules/chai';
 import sinon from 'sinon';
 import Controller from '../../src/controller';
 
@@ -6,7 +6,7 @@ describe('controller', () => {
   describe('#constructor', () => {
     it('constructs', () => {
       const controller = new Controller();
-      assert(controller instanceof Controller);
+      expect(controller).to.be.an.instanceof(Controller);
     });
 
     describe('#ac', () => {
@@ -18,8 +18,8 @@ describe('controller', () => {
         });
 
         it('creates a audioContext with #acOpts', () => {
-          assert(controller.ac instanceof AudioContext);
-          assert.strictEqual(controller.ac.sampleRate, 33333);
+          expect(controller.ac).to.be.an.instanceof(AudioContext);
+          expect(controller.ac.sampleRate).equal(33333);
         });
       });
 
@@ -33,7 +33,7 @@ describe('controller', () => {
         });
 
         it('sets the #ac', () => {
-          assert.strictEqual(controller.ac, ac);
+          expect(controller.ac).equal(ac);
         });
       });
 
@@ -46,7 +46,7 @@ describe('controller', () => {
         });
 
         it('starts ticking when the audiocontext starts', async () => {
-          assert(controller.ac.state === 'suspended');
+          expect(controller.ac.state).equal('suspended');
 
           await controller.ac.resume();
 
@@ -55,13 +55,13 @@ describe('controller', () => {
             ticks += 1;
           });
 
-          assert(ticks > 0);
+          expect(ticks > 0).to.be.true;
         });
 
         it('stop ticking when the audiocontext stops', async () => {
           await controller.ac.resume();
 
-          assert(controller.ac.state === 'running');
+          expect(controller.ac.state).equal('running');
 
           const ticksBeforeSuspend = ticks;
 
@@ -71,7 +71,7 @@ describe('controller', () => {
             setTimeout(done, 200);
           });
 
-          assert(ticksBeforeSuspend === ticks);
+          expect(ticksBeforeSuspend).equal(ticks);
         });
       });
     });
@@ -84,7 +84,7 @@ describe('controller', () => {
           controller = new Controller();
         });
         it('sets #refreshRate=250 (default)', () => {
-          assert.strictEqual(controller.refreshRate, 250);
+          expect(controller.refreshRate).equal(250);
         });
       });
 
@@ -93,7 +93,7 @@ describe('controller', () => {
           controller = new Controller({ refreshRate: 500 });
         });
         it('sets #refreshRate=100', () => {
-          assert.strictEqual(controller.refreshRate, 500);
+          expect(controller.refreshRate).equal(500);
         });
       });
     });
@@ -102,7 +102,7 @@ describe('controller', () => {
       describe('when #destination = undefined (default)', () => {
         it('uses the #ac destination', () => {
           const controller = new Controller();
-          assert.strictEqual(controller.destination, controller.ac.destination);
+          expect(controller.destination).equal(controller.ac.destination);
         });
       });
       describe('when #destination = set', () => {
@@ -110,7 +110,7 @@ describe('controller', () => {
           const ac = new AudioContext();
           const processor = ac.createScriptProcessor();
           const controller = new Controller({ ac, destination: processor });
-          assert.strictEqual(controller.destination, processor);
+          expect(controller.destination).equal(processor);
         });
       });
     });
@@ -118,7 +118,7 @@ describe('controller', () => {
     describe('#gainNode', () => {
       it('creates a gainNode', () => {
         const controller = new Controller();
-        assert(controller.gainNode instanceof GainNode);
+        expect(controller.gainNode).to.be.an.instanceof(GainNode);
       });
       it('connects the gainNode to the destination', () => {
         const controller = new Controller({
@@ -133,7 +133,7 @@ describe('controller', () => {
             addEventListener: () => {},
           },
         });
-        assert(controller.gainNode.connect.calledWith(controller.destination));
+        expect(controller.gainNode.connect.calledWith(controller.destination));
       });
     });
   });
@@ -157,7 +157,7 @@ describe('controller', () => {
         setTimeout(done, 100);
       });
 
-      assert(ticks > 0);
+      expect(ticks > 0);
 
       const ticksBeforeDestroy = ticks;
 
@@ -167,7 +167,7 @@ describe('controller', () => {
         setTimeout(done, 100);
       });
 
-      assert.strictEqual(ticksBeforeDestroy, ticks);
+      expect(ticksBeforeDestroy).equal(ticks);
     });
 
     it('disconnects the gainNode', () => {
@@ -176,24 +176,24 @@ describe('controller', () => {
 
       controller.destroy();
 
-      assert(gainNode.disconnect.calledOnce);
-      assert(controller.gainNode === null);
+      expect(gainNode.disconnect.calledOnce);
+      expect(controller.gainNode).to.be.null;
     });
 
     it('detaches the audioContext', () => {
-      assert(controller.ac instanceof AudioContext);
+      expect(controller.ac).instanceOf(AudioContext);
 
       controller.destroy();
 
-      assert(controller.ac === null);
+      expect(controller.ac).to.be.null;
     });
 
     it('removes any references to hls instances', () => {
-      assert(controller.hls.length > 0);
+      expect(controller.hls.length).greaterThan(0);
 
       controller.destroy();
 
-      assert(controller.hls.length === 0);
+      expect(controller.hls.length).equal(0);
     });
 
     describe('when the controller created the audioContext', () => {
@@ -204,7 +204,7 @@ describe('controller', () => {
 
         controller.destroy();
 
-        assert(spy.calledOnce);
+        expect(spy.calledOnce);
       });
     });
 
@@ -217,14 +217,14 @@ describe('controller', () => {
 
         controller2.destroy();
 
-        assert(!ac.close.calledOnce);
+        expect(!ac.close.calledOnce);
       });
     });
 
     it('unregisters any event listeners', () => {
       controller.unAll = sinon.spy();
       controller.destroy();
-      assert(controller.unAll.calledOnce);
+      expect(controller.unAll.calledOnce);
     });
   });
 
@@ -239,10 +239,10 @@ describe('controller', () => {
 
     describe('when a hls track is not yet observed', () => {
       it('is obseved by the controller', () => {
-        assert(controller.hls.length === 0);
+        expect(controller.hls.length).equal(0);
         controller.observe(hls);
-        assert(controller.hls.length === 1);
-        assert.strictEqual(controller.hls[0], hls);
+        expect(controller.hls.length).equal(1);
+        expect(controller.hls[0]).equal(hls);
       });
     });
 
@@ -253,8 +253,8 @@ describe('controller', () => {
 
       it('not observed twice', () => {
         controller.observe(hls);
-        assert(controller.hls.length === 1);
-        assert.strictEqual(controller.hls[0], hls);
+        expect(controller.hls.length).equal(1);
+        expect(controller.hls[0]).equal(hls);
       });
     });
   });
@@ -271,7 +271,7 @@ describe('controller', () => {
     describe('when a hls track is not yet observed', () => {
       it('does nothing', () => {
         controller.unobserve(hls);
-        assert(controller.hls.length === 0);
+        expect(controller.hls.length).equal(0);
       });
     });
     describe('when a hls track is obseved', () => {
@@ -280,9 +280,9 @@ describe('controller', () => {
       });
 
       it('unobserves the hls track', () => {
-        assert(controller.hls.length === 1);
+        expect(controller.hls.length).equal(1);
         controller.unobserve(hls);
-        assert(controller.hls.length === 0);
+        expect(controller.hls.length).equal(0);
       });
     });
   });
@@ -306,7 +306,7 @@ describe('controller', () => {
           thrownError = err;
         }
 
-        assert.equal(thrownError.message, 'Cannot play before loading content');
+        expect(thrownError.message).equal('Cannot play before loading content');
       });
     });
 
@@ -323,14 +323,14 @@ describe('controller', () => {
             controller.on('start', () => done());
           });
 
-          assert.strictEqual(parseInt(controller.currentTime, 10), 0);
+          expect(parseInt(controller.currentTime, 10)).equal(0);
         });
       });
 
       it('resumes the audioContext', () => {
         controller.ac.resume = sinon.spy();
         controller.play();
-        assert(controller.ac.resume.calledOnce);
+        expect(controller.ac.resume.calledOnce);
       });
 
       it('fires a "start" event', async () => {
@@ -346,8 +346,8 @@ describe('controller', () => {
           controller.on('timeupdate', done);
         });
 
-        assert(typeof result.t === 'number');
-        assert(typeof result.pct === 'number');
+        expect(typeof result.t === 'number');
+        expect(typeof result.pct === 'number');
       });
     });
   });
@@ -368,7 +368,7 @@ describe('controller', () => {
     it('suspends the audioContext', () => {
       controller.ac.suspend = sinon.stub().resolves();
       controller.pause();
-      assert(controller.ac.suspend.calledOnce);
+      expect(controller.ac.suspend.calledOnce);
     });
 
     it('fires a "pause" event', async () => {
@@ -390,18 +390,18 @@ describe('controller', () => {
         setTimeout(done, 200);
       });
 
+      await controller.pause();
+
       // count the number of ticks before pause
       const ticksBeforePause = ticks;
 
-      controller.pause();
-
       // wait for a few ticks
       await new Promise((done) => {
-        setTimeout(done, 500);
+        setTimeout(done, 250);
       });
 
       // check that no more ticks happened after pause
-      assert.strictEqual(ticksBeforePause, ticks);
+      expect(ticksBeforePause).equal(ticks);
     });
   });
 
@@ -413,21 +413,21 @@ describe('controller', () => {
 
     describe('when no hls track is loaded', () => {
       it('returns undefined (default)', () => {
-        assert.strictEqual(controller.duration, undefined);
+        expect(controller.duration).to.be.undefined;
       });
     });
 
     describe('when a track with #duration 1 is loaded', () => {
       it('returns 1', () => {
         controller.observe({ duration: 1 });
-        assert.strictEqual(controller.duration, 1);
+        expect(controller.duration).equal(1);
       });
     });
 
     describe('when a track with #duration 2 is loaded', () => {
       it('returns 2', () => {
         controller.observe({ duration: 2 });
-        assert.strictEqual(controller.duration, 2);
+        expect(controller.duration).equal(2);
       });
     });
   });
@@ -440,14 +440,14 @@ describe('controller', () => {
     });
 
     it('returns undefined (default)', () => {
-      assert.strictEqual(controller.currentTime, undefined);
+      expect(controller.currentTime).equal(undefined);
     });
 
     describe('when #duration is undefined (default)', () => {
       it('throws an exception when set set #currentTime=1', () => {
-        assert.throws(() => {
+        expect(() => {
           controller.currentTime = 1;
-        }, /CurrentTime .* should be between 0 and duration .*/);
+        }, /CurrentTime .* should be between 0 and duration .*/).to.throw();
       });
     });
 
@@ -457,23 +457,23 @@ describe('controller', () => {
       });
 
       it('throws an exception if we set #currentTime < 0', () => {
-        assert.throws(() => {
+        expect(() => {
           controller.currentTime = -1;
-        }, /CurrentTime .* should be between 0 and duration .*/);
+        }, /CurrentTime .* should be between 0 and duration .*/).to.throw();
       });
 
       it('throws an exception if we set #currentTime to 11', () => {
-        assert.throws(() => {
+        expect(() => {
           controller.currentTime = 11;
-        }, /CurrentTime .* should be between 0 and duration .*/);
+        }, /CurrentTime .* should be between 0 and duration .*/).to.throw();
       });
 
       it('sets #currentTime sucessfully to 9', () => {
         controller.currentTime = 1;
-        assert(typeof controller.currentTime === 'number');
+        expect(typeof controller.currentTime === 'number');
 
         // currentTime is set to a float taking into consideration the audioContext.currentTime
-        assert.strictEqual(Math.round(controller.currentTime), 1);
+        expect(Math.round(controller.currentTime)).equal(1);
       });
     });
   });
@@ -487,9 +487,9 @@ describe('controller', () => {
 
     describe('when #duration is undefined', () => {
       it('throws an exception when set set #pct=0.5', () => {
-        assert.throws(() => {
+        expect(() => {
           controller.pct = 0.5;
-        }, /CurrentTime .* should be between 0 and duration .*/);
+        }, /CurrentTime .* should be between 0 and duration .*/).to.throw;
       });
     });
 
@@ -501,7 +501,7 @@ describe('controller', () => {
 
       it('sucessfully returns #pct=0.5 set set #pct=0.5', () => {
         controller.pct = 0.5;
-        assert.strictEqual(Math.floor(controller.pct * 10) / 10, 0.5);
+        expect(Math.floor(controller.pct * 10) / 10, 0.5);
       });
     });
   });
@@ -515,7 +515,7 @@ describe('controller', () => {
 
     describe('when #adjustedStart = undefined (default)', () => {
       it('returns undefined', () => {
-        assert.strictEqual(controller.calculateRealStart(60), undefined);
+        expect(controller.calculateRealStart(60)).to.be.undefined;
       });
     });
 
@@ -525,7 +525,7 @@ describe('controller', () => {
       });
 
       it('returns the default start time #start = 60', () => {
-        assert.strictEqual(controller.calculateRealStart(60), 60);
+        expect(controller.calculateRealStart(60)).equal(60);
       });
     });
 
@@ -535,7 +535,7 @@ describe('controller', () => {
       });
 
       it('returns an adjusted start time', () => {
-        assert.strictEqual(controller.calculateRealStart(60), 30);
+        expect(controller.calculateRealStart(60)).equal(30);
       });
     });
   });
@@ -549,7 +549,7 @@ describe('controller', () => {
 
     describe('when #currentTime = undefined (default)', () => {
       it('returns undefined', () => {
-        assert.strictEqual(controller.calculateOffset(60), undefined);
+        expect(controller.calculateOffset(60)).to.be.undefined;
       });
     });
 
@@ -560,11 +560,11 @@ describe('controller', () => {
       });
 
       it('returns #offset=0 for a #start=60 in the future', () => {
-        assert.strictEqual(Math.round(controller.calculateOffset(60)), 0);
+        expect(Math.round(controller.calculateOffset(60))).equal(0);
       });
 
       it('returns #offset = 10 for #start = 20 in the past', () => {
-        assert.strictEqual(Math.round(controller.calculateOffset(20)), 10);
+        expect(Math.round(controller.calculateOffset(20))).equal(10);
       });
     });
   });
@@ -577,7 +577,7 @@ describe('controller', () => {
     });
 
     it('returns #ac state', () => {
-      assert.strictEqual(controller.state, 'suspended');
+      expect(controller.state).equal('suspended');
     });
   });
 
@@ -589,7 +589,7 @@ describe('controller', () => {
     });
 
     it('returns #gainNode value', () => {
-      assert.strictEqual(controller.volume, 1);
+      expect(controller.volume).equal(1);
     });
   });
 
@@ -604,14 +604,14 @@ describe('controller', () => {
       controller.observe({ shouldAndCanPlay: true });
       controller.observe({ shouldAndCanPlay: true });
       controller.observe({ shouldAndCanPlay: true });
-      assert(controller.canPlay);
+      expect(controller.canPlay);
     });
 
     it('returns true if one of the hls instances can not play', async () => {
       controller.observe({ shouldAndCanPlay: true });
       controller.observe({ shouldAndCanPlay: false });
       controller.observe({ shouldAndCanPlay: true });
-      assert(!controller.canPlay);
+      expect(!controller.canPlay);
     });
   });
 });

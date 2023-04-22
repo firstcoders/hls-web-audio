@@ -89,7 +89,7 @@ class HLS {
       .then((r) => this.parseM3u8(r))
       .then((r) => this.buildSegments(r))
       .then((r) => {
-        this.controller.notify('stem-init', this);
+        this.controller?.notify('stem-init', this);
         return r;
       });
 
@@ -134,7 +134,7 @@ class HLS {
    * @param {Array} sources - An array containing the segment data
    */
   buildSegments(sources) {
-    this.stack.push(...sources.map((source) => new Segment(source)));
+    this.stack?.push(...sources.map((source) => new Segment(source)));
   }
 
   /**
@@ -202,7 +202,7 @@ class HLS {
       // connect it to the audio
       await segment.connect({ controller, destination });
 
-      this.stack.recalculateStartTimes();
+      this.stack?.recalculateStartTimes();
     } catch (err) {
       if (err.name !== 'AbortError') {
         this.controller.notify('error', err);

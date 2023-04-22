@@ -1,4 +1,4 @@
-import assert from 'assert';
+import { expect } from '@bundled-es-modules/chai';
 import sinon from 'sinon';
 import HLS from '../../src/hls';
 import Controller from '../../src/controller';
@@ -8,7 +8,7 @@ describe('hls', () => {
     describe('when #controller = undefined', () => {
       it('instantiates a new controller', () => {
         const hls = new HLS();
-        assert(hls.controller instanceof Controller);
+        expect(hls.controller instanceof Controller);
       });
     });
 
@@ -16,7 +16,7 @@ describe('hls', () => {
       it('sets #controller', () => {
         const controller = new Controller();
         const hls = new HLS({ controller });
-        assert.strictEqual(hls.controller, controller);
+        expect(hls.controller).equal(controller);
       });
     });
 
@@ -25,7 +25,7 @@ describe('hls', () => {
       controller.observe = sinon.spy();
       const hls = new HLS({ controller });
 
-      assert(controller.observe.calledOnceWith(hls));
+      expect(controller.observe.calledOnceWith(hls));
     });
 
     it('subscribes to #controller timeupdate event', () => {
@@ -35,7 +35,7 @@ describe('hls', () => {
 
       controller.fireEvent('timeupdate');
 
-      assert(hls.runSchedulePass.calledOnce);
+      expect(hls.runSchedulePass.calledOnce);
     });
 
     it('subscribes to #controller seek event', () => {
@@ -45,12 +45,12 @@ describe('hls', () => {
 
       controller.fireEvent('seek');
 
-      assert(hls.runSchedulePass.calledOnce);
+      expect(hls.runSchedulePass.calledOnce);
     });
 
     it('creates a gainNode', () => {
       const hls = new HLS();
-      assert(hls.gainNode instanceof GainNode);
+      expect(hls.gainNode instanceof GainNode);
     });
 
     it('connects the gainNode to the #controller.gainNode', () => {
@@ -58,7 +58,7 @@ describe('hls', () => {
       const mockGain = { connect: sinon.spy(), gain: {} };
       controller.ac = { createGain: () => mockGain, addEventListener: () => {} };
       const hls = new HLS({ controller });
-      assert(hls.gainNode.connect.calledOnceWith(controller.gainNode));
+      expect(hls.gainNode.connect.calledOnceWith(controller.gainNode));
     });
 
     it('sets #fetchOptions', async () => {
@@ -72,7 +72,7 @@ describe('hls', () => {
         fetchOptions,
       });
 
-      assert.strictEqual(hls.fetchOptions, fetchOptions);
+      expect(hls.fetchOptions).equal(fetchOptions);
     });
   });
 
@@ -84,12 +84,12 @@ describe('hls', () => {
     });
 
     it('cancels any pending get m3u8 playlist requests', async () => {
-      hls.load('http://localhost:9876/base/test/fixtures/stem1.m3u8');
+      hls.load('http://localhost:9876/test/fixtures/stem1.m3u8');
       hls.loadHandle = { cancel: sinon.spy() };
 
       hls.destroy();
 
-      assert(hls.loadHandle.cancel.calledOnce);
+      expect(hls.loadHandle.cancel.calledOnce);
     });
 
     it('tells the controller to stop observing the hls instance', () => {
@@ -97,11 +97,11 @@ describe('hls', () => {
       hls.destroy();
 
       // TODO, #controller.hls is/should be private(?), so we shouldnt mess with it. Test in another way.
-      assert(controller.hls.indexOf(hls) === -1);
+      expect(controller.hls.indexOf(hls)).equal(-1);
     });
 
     it('destroys the stack', async () => {
-      await hls.load('http://localhost:9876/base/test/fixtures/stem1.m3u8').promise;
+      await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
 
       // TODO, segments is/should be private(?), so we shouldnt mess with it. Test in another way.
       const mockSegment = { destroy: sinon.spy() };
@@ -109,7 +109,7 @@ describe('hls', () => {
 
       hls.destroy();
 
-      assert(mockSegment.destroy.calledOnce);
+      expect(mockSegment.destroy.calledOnce);
     });
   });
 
@@ -121,20 +121,20 @@ describe('hls', () => {
     });
 
     it('parses the m3u8 and pushes the segments onto the stack', async () => {
-      await hls.load('http://localhost:9876/base/test/fixtures/stem1.m3u8').promise;
+      await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
 
-      assert.strictEqual(hls.duration, 30.015999);
-      assert.strictEqual(hls.stack.length, 3);
-      assert.strictEqual(hls.stack.getAt(0).start, 0);
-      assert.strictEqual(hls.stack.getAt(11).start, 10.005333);
-      assert.strictEqual(hls.stack.getAt(21).start, 20.010666);
+      expect(hls.duration).equal(30.015999);
+      expect(hls.stack.length).equal(3);
+      expect(hls.stack.getAt(0).start).equal(0);
+      expect(hls.stack.getAt(11).start).equal(10.005333);
+      expect(hls.stack.getAt(21).start).equal(20.010666);
     });
 
     it('returns an object containing #promise and #cancel', () => {
-      const { promise, cancel } = hls.load('http://localhost:9876/base/test/fixtures/stem1.m3u8');
+      const { promise, cancel } = hls.load('http://localhost:9876/test/fixtures/stem1.m3u8');
 
-      assert(typeof promise === 'object');
-      assert(typeof cancel === 'function');
+      expect(typeof promise === 'object');
+      expect(typeof cancel === 'function');
     });
 
     it('uses #fetchOptions if these are set', async () => {
@@ -153,9 +153,9 @@ describe('hls', () => {
         },
       });
 
-      await hls.load('http://localhost:9876/base/test/fixtures/stem1.m3u8').promise;
+      await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
 
-      assert.strictEqual(requestOptions.headers.Authorization, 'Bearer blah');
+      expect(requestOptions.headers.Authorization).equal('Bearer blah');
     });
 
     it('sets the accept header', async () => {
@@ -169,10 +169,9 @@ describe('hls', () => {
         },
       });
 
-      await hls.load('http://localhost:9876/base/test/fixtures/stem1.m3u8').promise;
+      await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
 
-      assert.strictEqual(
-        requestOptions.headers.Accept,
+      expect(requestOptions.headers.Accept).equal(
         'application/x-mpegURL, application/vnd.apple.mpegurl'
       );
     });
@@ -186,17 +185,17 @@ describe('hls', () => {
     });
 
     it('constructs segments from the data in the m3u8', async () => {
-      const manifest = await fetch('http://localhost:9876/base/test/fixtures/stem1.m3u8').then(
+      const manifest = await fetch('http://localhost:9876/test/fixtures/stem1.m3u8').then(
         (response) => response.text()
       );
 
       hls.loadFromM3u8(manifest);
 
-      assert.strictEqual(hls.duration, 30.015999);
-      assert.strictEqual(hls.stack.length, 3);
-      assert.strictEqual(hls.stack.getAt(0).start, 0);
-      assert.strictEqual(hls.stack.getAt(11).start, 10.005333);
-      assert.strictEqual(hls.stack.getAt(21).start, 20.010666);
+      expect(hls.duration).equal(30.015999);
+      expect(hls.stack.length).equal(3);
+      expect(hls.stack.getAt(0).start).equal(0);
+      expect(hls.stack.getAt(11).start).equal(10.005333);
+      expect(hls.stack.getAt(21).start).equal(20.010666);
     });
   });
 
@@ -205,11 +204,11 @@ describe('hls', () => {
 
     beforeEach(() => {
       hls = new HLS();
-      return hls.load('http://localhost:9876/base/test/fixtures/stem1.m3u8').promise;
+      return hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
     });
 
     it('returns the total duration from the combined segments', async () => {
-      assert.strictEqual(hls.duration, 30.015999);
+      expect(hls.duration).equal(30.015999);
     });
   });
 
@@ -218,7 +217,7 @@ describe('hls', () => {
 
     beforeEach(async () => {
       hls = new HLS();
-      await hls.load('http://localhost:9876/base/test/fixtures/stem1.m3u8').promise;
+      await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
       hls.controller.adjustedStart = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
     });
 
@@ -233,7 +232,7 @@ describe('hls', () => {
 
       hls.controller.currentTime = 10; // initiate the seek which will trigger the disconnect
 
-      assert(current.disconnect.calledOnce);
+      expect(current.disconnect.calledOnce);
     });
 
     it('cancels any segment loading', async () => {
@@ -241,7 +240,7 @@ describe('hls', () => {
 
       hls.controller.currentTime = 8; // initiate the seek which will trigger the disconnect
 
-      assert(hls.stack.current.cancel.calledOnce);
+      expect(hls.stack.current.cancel.calledOnce);
     });
   });
 
@@ -251,7 +250,7 @@ describe('hls', () => {
     describe('if the current segment is not loaded', () => {
       beforeEach(async () => {
         hls = new HLS();
-        await hls.load('http://localhost:9876/base/test/fixtures/stem1.m3u8').promise;
+        await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
         hls.controller.adjustedStart = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
       });
 
@@ -261,7 +260,7 @@ describe('hls', () => {
 
         await hls.runSchedulePass();
 
-        assert(current.connect.calledOnce);
+        expect(current.connect.calledOnce);
       });
     });
 
@@ -269,7 +268,7 @@ describe('hls', () => {
       describe('if the next segment is not loaded', () => {
         beforeEach(async () => {
           hls = new HLS();
-          await hls.load('http://localhost:9876/base/test/fixtures/stem1.m3u8').promise;
+          await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
           hls.controller.adjustedStart = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
           await hls.runSchedulePass(); // loads the current one, so the next call should load the next segment
         });
@@ -282,15 +281,15 @@ describe('hls', () => {
 
           await hls.runSchedulePass();
 
-          assert(!current.connect.calledOnce);
-          assert(next.connect.calledOnce);
+          expect(!current.connect.calledOnce);
+          expect(next.connect.calledOnce);
         });
       });
 
       describe('if the next segment is loaded', () => {
         beforeEach(async () => {
           hls = new HLS();
-          await hls.load('http://localhost:9876/base/test/fixtures/stem1.m3u8').promise;
+          await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
           hls.controller.adjustedStart = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
         });
 
@@ -310,8 +309,8 @@ describe('hls', () => {
           await hls.runSchedulePass();
 
           // test that the third run did not call either
-          assert(!current.connect.calledOnce);
-          assert(!next.connect.calledOnce);
+          expect(!current.connect.calledOnce);
+          expect(!next.connect.calledOnce);
         });
       });
     });
@@ -325,12 +324,12 @@ describe('hls', () => {
     });
 
     it('return #volume = 1 (default)', () => {
-      assert.strictEqual(hls.volume, 1);
+      expect(hls.volume).equal(1);
     });
 
     it('sets the volume on the gainNode', () => {
       hls.volume = 0.5;
-      assert.strictEqual(hls.volume, 0.5);
+      expect(hls.volume).equal(0.5);
     });
   });
 
@@ -342,7 +341,7 @@ describe('hls', () => {
     });
 
     it('does not throw an error when canceling a pending m3u8 request', async () => {
-      const { promise, cancel } = hls.load('http://localhost:9876/base/test/fixtures/stem1.m3u8');
+      const { promise, cancel } = hls.load('http://localhost:9876/test/fixtures/stem1.m3u8');
 
       cancel();
 
@@ -352,7 +351,7 @@ describe('hls', () => {
         if (err.name === 'AbortError') aborted = true;
       });
 
-      assert(!aborted);
+      expect(!aborted);
     });
   });
 
@@ -361,18 +360,18 @@ describe('hls', () => {
 
     beforeEach(async () => {
       hls = new HLS();
-      await hls.load('http://localhost:9876/base/test/fixtures/stem1.m3u8').promise;
+      await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
       hls.controller.adjustedStart = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
     });
 
     it('returns false the current segment is not ready', () => {
-      assert(!hls.canPlay);
+      expect(!hls.canPlay);
     });
 
     it('returns true the current segment is ready', async () => {
       await hls.runSchedulePass(); // loads the current one
 
-      assert(hls.canPlay);
+      expect(hls.canPlay);
     });
   });
 });

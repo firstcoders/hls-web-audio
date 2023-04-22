@@ -1,27 +1,24 @@
-import assert from 'assert';
+import { expect } from '@bundled-es-modules/chai';
 import sinon from 'sinon';
-import { Controller } from '../..';
+import Controller from '../../src/controller';
 import Segment from '../../src/segment';
 
 describe('segment', () => {
   let segment;
   beforeEach(() => {
     segment = new Segment({
-      src: 'http://localhost:9876/base/test/fixtures/stem1_segment1.mp3',
+      src: 'http://localhost:9876/test/fixtures/stem1_segment1.mp3',
       duration: 10.005333,
     });
   });
 
   describe('#constructor', () => {
     it('sets the src', () => {
-      assert.strictEqual(
-        segment.src,
-        'http://localhost:9876/base/test/fixtures/stem1_segment1.mp3'
-      );
+      expect(segment.src).equal('http://localhost:9876/test/fixtures/stem1_segment1.mp3');
     });
 
     it('sets the duration', () => {
-      assert.strictEqual(segment.duration, 10.005333);
+      expect(segment.duration).equal(10.005333);
     });
   });
 
@@ -31,7 +28,7 @@ describe('segment', () => {
 
       segment.destroy();
 
-      assert(segment.cancel.calledOnce);
+      expect(segment.cancel.calledOnce);
     });
 
     it('disconnects any audio sourceNode', async () => {
@@ -39,21 +36,21 @@ describe('segment', () => {
       await segment.load().promise;
       await segment.connect({ controller, destination: controller.destination });
 
-      assert(segment.isReady);
+      expect(segment.isReady);
 
       segment.destroy();
 
-      assert(!segment.isReady);
+      expect(!segment.isReady);
     });
 
     it('cleans up properties', async () => {
       await segment.load().promise;
 
-      assert(segment.arrayBuffer instanceof ArrayBuffer);
+      expect(segment.arrayBuffer instanceof ArrayBuffer);
 
       segment.destroy();
 
-      assert(segment.arrayBuffer === null);
+      expect(segment.arrayBuffer === null);
     });
   });
 
@@ -63,7 +60,7 @@ describe('segment', () => {
     });
 
     it('loads the audio', () => {
-      assert(segment.arrayBuffer instanceof ArrayBuffer);
+      expect(segment.arrayBuffer instanceof ArrayBuffer);
     });
   });
 
@@ -76,12 +73,12 @@ describe('segment', () => {
     });
 
     it('connects a audionode', async () => {
-      assert(segment.isReady);
-      assert(segment.sourceNode !== null);
+      expect(segment.isReady);
+      expect(segment.sourceNode !== null);
     });
 
     it('cleans up the raw audiodata after connecting', () => {
-      assert(segment.arrayBuffer === null);
+      expect(segment.arrayBuffer === null);
     });
   });
 
@@ -95,12 +92,12 @@ describe('segment', () => {
       await segment.load().promise;
       await segment.connect({ controller, destination: controller.destination });
 
-      assert(segment.isReady);
+      expect(segment.isReady);
 
       segment.disconnect();
 
-      assert(!segment.isReady);
-      assert(segment.sourceNode === null);
+      expect(!segment.isReady);
+      expect(segment.sourceNode === null);
     });
   });
 
@@ -111,14 +108,14 @@ describe('segment', () => {
     });
 
     it('returns false if an audionode is not connected', async () => {
-      assert(!segment.isReady);
+      expect(!segment.isReady);
     });
 
     it('returns true if an audionode is connected', async () => {
       await segment.load().promise;
       await segment.connect({ controller, destination: controller.destination });
 
-      assert(segment.isReady);
+      expect(segment.isReady);
     });
   });
 
@@ -134,7 +131,7 @@ describe('segment', () => {
         thrownError = err;
       }
 
-      assert.strictEqual(thrownError.name, 'AbortError');
+      expect(thrownError.name).equal('AbortError');
     });
   });
 
@@ -144,13 +141,13 @@ describe('segment', () => {
         segment.start = 10;
       });
       it('returns the end time', () => {
-        assert.strictEqual(segment.end, 20.005333);
+        expect(segment.end).equal(20.005333);
       });
     });
 
     describe('when start is set to undefined', () => {
       it('returns undefined', () => {
-        assert.strictEqual(segment.end, undefined);
+        expect(segment.end).equal(undefined);
       });
     });
   });
