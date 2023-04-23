@@ -1,4 +1,20 @@
-import { Parser } from 'm3u8-parser';
+/**
+ * Copyright (C) 2019-2023 First Coders LTD
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
+ */
+import { m3u8Parser } from './parser';
 import Controller from './controller';
 import Segment from './segment';
 import Stack from './stack';
@@ -86,7 +102,7 @@ class HLS {
         return r;
       })
       .then((r) => r.text())
-      .then((r) => this.parseM3u8(r))
+      .then((r) => this.parseM3u8(r, src))
       .then((r) => this.buildSegments(r))
       .then((r) => {
         this.controller?.notify('stem-init', this);
@@ -106,9 +122,10 @@ class HLS {
   /**
    * Populates the hls track from a text m3u8 manifest
    * @param {String} manifest - The m3u8 manifest
+   * @param {String} src - The m3u8 location
    */
-  loadFromM3u8(manifest) {
-    const sources = this.parseM3u8(manifest);
+  loadFromM3u8(manifest, src) {
+    const sources = this.parseM3u8(manifest, src);
     this.buildSegments(sources);
   }
 
@@ -118,14 +135,12 @@ class HLS {
    * @param {String} manifest - The m3u8 manifest
    * @returns
    */
-  parseM3u8(manifest) {
-    const parser = new Parser();
-    parser.push(manifest);
-    parser.end();
+  parseM3u8(manifest, src) {
+    const { segments } = m3u8Parser(manifest, src);
 
-    return parser.manifest.segments.map((segment) => ({
-      src: segment.uri,
-      duration: segment.duration,
+    return segments.map(({ url, end, start }) => ({
+      src: url,
+      duration: end - start,
     }));
   }
 

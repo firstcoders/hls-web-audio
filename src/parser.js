@@ -14,4 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-export default window.AudioContext || window.webkitAudioContext;
+
+// export umd as esm
+import * as Parser from 'mpd-m3u8-to-json';
+
+const { m3u8Parser } = Parser.default;
+
+// eslint-disable-next-line import/prefer-default-export
+export { m3u8Parser };

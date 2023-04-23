@@ -149,7 +149,7 @@ describe('hls', () => {
         // inject a mock fetch
         fetch: (url, opts) => {
           requestOptions = opts;
-          return Promise.resolve({ ok: true, text: () => {} });
+          return fetch(url, opts);
         },
       });
 
@@ -165,7 +165,7 @@ describe('hls', () => {
         // inject a mock fetch
         fetch: (url, opts) => {
           requestOptions = opts;
-          return Promise.resolve({ ok: true, text: () => {} });
+          return fetch(url, opts);
         },
       });
 
@@ -189,7 +189,7 @@ describe('hls', () => {
         (response) => response.text()
       );
 
-      hls.loadFromM3u8(manifest);
+      hls.loadFromM3u8(manifest, 'http://localhost:9876/test/fixtures/stem1.m3u8');
 
       expect(hls.duration).equal(30.015999);
       expect(hls.stack.length).equal(3);

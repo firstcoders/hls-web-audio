@@ -387,7 +387,7 @@ describe('controller', () => {
 
       // wait for a few ticks
       await new Promise((done) => {
-        setTimeout(done, 200);
+        setTimeout(done, 500);
       });
 
       await controller.pause();
@@ -397,7 +397,7 @@ describe('controller', () => {
 
       // wait for a few ticks
       await new Promise((done) => {
-        setTimeout(done, 250);
+        setTimeout(done, 500);
       });
 
       // check that no more ticks happened after pause
