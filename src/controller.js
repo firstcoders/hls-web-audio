@@ -137,7 +137,7 @@ class Controller extends Observer {
     if (typeof this.duration !== 'number') throw new Error('Cannot play before loading content');
     if (this.isBuffering) throw new Error('The player is buffering');
     // seek to 0 when starting playback for the first time
-    if (typeof this.adjustedStart !== 'number') this.currentTime = 0;
+    if (typeof this.adjustedStart !== 'number') this.fixAdjustedStart(0);
 
     if (this.ac.state === 'suspended') await this.ac.resume();
 
@@ -187,7 +187,7 @@ class Controller extends Observer {
     this.isBuffering = true;
 
     // store the original state, so that we can resume to that when buffering ends
-    this.preBufferState = this.ac.state;
+    this.preBufferState = this.preBufferState || this.ac.state;
 
     if (this.ac.state === 'running') this.ac.suspend();
   }
@@ -197,11 +197,11 @@ class Controller extends Observer {
    * @private
    */
   bufferingEnd() {
-    this.isBuffering = false;
-
     if (this.preBufferState === 'running') this.ac.resume();
 
     this.preBufferState = null;
+
+    this.isBuffering = false;
 
     this.fireEvent('pause-end');
   }
@@ -260,11 +260,27 @@ class Controller extends Observer {
     if (typeof this.duration !== 'number' || t < 0 || t > this.duration)
       throw new Error(`CurrentTime ${t} should be between 0 and duration ${this.duration}`);
 
-    // We round as extreme precise floating point numbers were causing slight rounding(?) errors in scheduling, resulting in ticks
-    this.adjustedStart = Math.floor((this.ac.currentTime - t) * 10) / 10;
+    this.fixAdjustedStart(t);
 
     // seek
-    this.fireEvent('seek', { t: this.currentTime, pct: this.pct, remaining: this.remaining });
+    const { state } = this.ac;
+
+    // suspend the ac before emitting the seek event: disconnecting audio nodes on a runnin ac can cause "cracks" and "pops".
+    this.ac.suspend().then(() => {
+      this.fireEvent('seek', { t: this.currentTime, pct: this.pct, remaining: this.remaining });
+      if (state === 'running') {
+        this.ac.resume();
+      }
+    });
+  }
+
+  /**
+   * Calculates the adjusted start time (determining where the "0" point lies) relative to the ac time
+   * @param {Float} t
+   */
+  fixAdjustedStart(t) {
+    // We round as extreme precise floating point numbers were causing slight rounding(?) errors in scheduling, resulting in ticks
+    this.adjustedStart = Math.floor((this.ac.currentTime - t) * 10) / 10;
   }
 
   /**
@@ -360,6 +376,10 @@ class Controller extends Observer {
    */
   get canPlay() {
     return !this.hls.find((hls) => !hls.shouldAndCanPlay);
+  }
+
+  get isSeeking() {
+    return !!this.hls.find((hls) => hls.isSeeking);
   }
 
   /**

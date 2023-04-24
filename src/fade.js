@@ -16,24 +16,37 @@
  */
 // Fading to zero doesnt work
 const ZERO = 0.00001;
+const VERY_SHORT = 0.03;
 
-const fadeOut = (gainNode, { duration = 1 } = {}) => {
+const fadeOut = async (gainNode, { duration = VERY_SHORT } = {}) => {
   const { gain, context } = gainNode;
   gain.setValueAtTime(gain.value, context.currentTime);
   gain.linearRampToValueAtTime(ZERO, context.currentTime + duration);
+
+  await new Promise((done) => {
+    setTimeout(() => {
+      done();
+    }, duration * 1000);
+  });
 };
 
-const fadeIn = (gainNode, { duration = 1 } = {}) => {
+const fadeIn = async (gainNode, { duration = VERY_SHORT, volume = 1 } = {}) => {
   const { gain, context } = gainNode;
 
   gain.setValueAtTime(ZERO, context.currentTime);
 
   // NOTE: fadein, does not require a delay in resolving as it can happen when the clock ticks
-  let to = gain.stateValue !== undefined ? gain.stateValue : 1;
+  let to = volume;
 
   if (to === 0) to = ZERO;
 
   gain.linearRampToValueAtTime(to, context.currentTime + duration);
+
+  await new Promise((done) => {
+    setTimeout(() => {
+      done();
+    }, duration * 1000);
+  });
 };
 
 export { fadeIn, fadeOut };

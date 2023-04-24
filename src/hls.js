@@ -82,6 +82,8 @@ class HLS {
    * @returns Object
    */
   load(src) {
+    this.src = src;
+
     const abortController = new AbortController();
 
     const promise = (this.fetch || fetch)(src, {
@@ -175,7 +177,11 @@ class HLS {
    *
    * @private
    */
-  onSeek() {
+  async onSeek() {
+    if (this.controller.ac.state === 'running') {
+      console.debug('Disconnecting node when audiocontext is running may cause "ticks"');
+    }
+
     // first disconnect everything
     this.stack.disconnectAll();
 
@@ -201,15 +207,6 @@ class HLS {
     try {
       // notify to the controller that loading has started
       this.controller.notify('loading-start', this);
-
-      // if we're not dealing with a current segment
-      // sleep for random short interval in order to stagger loading of segments and spread out load in an attempt to reduce clicks
-      if (this.stack.current !== segment) {
-        const sleep = Math.floor(Math.random() * (0 - 1000 + 1) + 1000);
-        await new Promise((done) => {
-          setInterval(() => done(), sleep);
-        });
-      }
 
       // load the segment
       await segment.load().promise;
