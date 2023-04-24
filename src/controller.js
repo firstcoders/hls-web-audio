@@ -288,9 +288,12 @@ class Controller extends Observer {
    * @param {Integer} pct - The current time between 0 and 1
    */
   set pct(pct) {
-    if (pct < 0 || pct > 1) throw new Error('Seek out of range');
+    let factor = pct;
 
-    this.currentTime = pct * this.duration;
+    if (factor < 0) factor = 0;
+    if (factor > 1) factor = 1;
+
+    this.currentTime = factor * this.duration;
   }
 
   /**
