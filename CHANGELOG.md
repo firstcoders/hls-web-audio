@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.2](https://github.com/sound-ws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.1...@soundws/hls-web-audio@2.0.0-beta.2) (2023-04-25)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** do not seek to 0 when playing first time.. merely mark 0 point ([f3c474b](https://github.com/sound-ws/hls-web-audio/commit/f3c474b6ba3a648f2358a7d403153ebd3fa38219))
+* **hls-web-audio:** fix for seek out of range. Dont throw error. ([957aa63](https://github.com/sound-ws/hls-web-audio/commit/957aa63bbec249583cd7d2cae79b1f1919bc5e90))
+
+
+### Features
+
+* **hls-web-audio:** stop ac before seeking so that disconnecting nodes does not cause cracks and pops, resume after ([5c6b0e2](https://github.com/sound-ws/hls-web-audio/commit/5c6b0e280175e032e46f7ae13e7dd3b68cdf4f46))
+
+
+
+
+
 # 2.0.0-beta.1 (2023-04-19)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
