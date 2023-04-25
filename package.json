@@ -20,6 +20,7 @@
     "url": "https://github.com/sound-ws/hls-web-audio.git"
   },
   "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "files": [
