@@ -1,8 +1,10 @@
 # hls-web-audio
 
-A package allowing for playing audio through the [HLS protocol](https://en.wikipedia.org/wiki/HTTP_Live_Streaming) using the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API).
+A package allowing for steaming multiple audio tracks with precision.
 
-The benefit is that one can have a very precise multi-track player.
+It uses the [HLS protocol](https://en.wikipedia.org/wiki/HTTP_Live_Streaming), however it will play any audio format that is supported by the relevent browser
+
+and the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API).
 
 > This repo is a subtree split of our monorepo which will be made public in due course. We cannot process any pull-requests to this repo. Please contact us for help.
 
