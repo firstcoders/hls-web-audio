@@ -135,6 +135,7 @@ class HLS {
    * Parses a m3u8 manifest into a neat structure
    * @private
    * @param {String} manifest - The m3u8 manifest
+   * @param {String} src - The src to the m3u8 file
    * @returns
    */
   parseM3u8(manifest, src) {

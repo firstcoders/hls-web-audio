@@ -7,7 +7,7 @@
   "version": "2.0.0-beta.1",
   "license": "(GPL-3.0-or-later or OEM)",
   "type": "module",
-  "private": true,
+  "main": "index.js",
   "contributors": [
     {
       "name": "Mark Cremer",
@@ -24,10 +24,14 @@
   },
   "files": [
     "src",
-    "COPYING",
     "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
     "index.js"
   ],
+  "directories": {
+    "test": "test"
+  },
   "dependencies": {
     "mpd-m3u8-to-json": "^0.1.3"
   },
