@@ -6,6 +6,8 @@ It uses the [HLS protocol](https://en.wikipedia.org/wiki/HTTP_Live_Streaming), h
 
 and the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API).
 
+## Contributing
+
 > This repo is a subtree split of our monorepo which will be made public in due course. We cannot process any pull-requests to this repo. Please contact us for help.
 
 ## Usage
