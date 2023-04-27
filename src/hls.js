@@ -107,7 +107,7 @@ class HLS {
       .then((r) => this.parseM3u8(r, src))
       .then((r) => this.buildSegments(r))
       .then((r) => {
-        this.controller?.notify('stem-init', this);
+        this.controller?.notify('init', this);
         return r;
       });
 

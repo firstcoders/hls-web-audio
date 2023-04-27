@@ -208,13 +208,13 @@ class Controller extends Observer {
 
   /**
    * A means to let HLSs to notify the controller of an event
-   * @param {String} event - the type of event that occurred in the HLS object
+   * @param {String} payload - the type of event that occurred in the HLS object
    */
-  notify(event, err) {
+  notify(event, payload) {
     if (event === 'loading-start' && !this.canPlay && !this.isBuffering) this.bufferingStart();
     if (event === 'loading-end' && this.canPlay && this.isBuffering) this.bufferingEnd();
-    if (event === 'error') this.fireEvent('error', err);
-    if (event === 'stem-init') this.fireEvent('duration', this.duration);
+    if (event === 'error') this.fireEvent('error', payload);
+    if (event === 'init') this.fireEvent('init', payload);
   }
 
   /**
