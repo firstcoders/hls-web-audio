@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.6](https://github.com/sound-ws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.5...@soundws/hls-web-audio@2.0.0-beta.6) (2023-05-01)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** include js file extension of esm modules ([3ffa870](https://github.com/sound-ws/hls-web-audio/commit/3ffa8706ab6d65de69d65410d807910e93fbe7ef))
+
+
+
+
+
 # [2.0.0-beta.5](https://github.com/sound-ws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.3...@soundws/hls-web-audio@2.0.0-beta.5) (2023-04-25)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
