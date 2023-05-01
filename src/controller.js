@@ -82,6 +82,9 @@ class Controller extends Observer {
 
     // make sure we stop the clock
     this.ac.suspend();
+
+    // by default we are suspended
+    this.desiredState = 'suspended';
   }
 
   /**
@@ -134,6 +137,8 @@ class Controller extends Observer {
    * @throws {Error} - Will throw an error if no HLS tracks that are observed by this controller have been loaded and duration cannot be determined.
    */
   async play() {
+    this.desiredState = 'resumed';
+
     if (typeof this.duration !== 'number') throw new Error('Cannot play before loading content');
     if (this.isBuffering) throw new Error('The player is buffering');
     // seek to 0 when starting playback for the first time
@@ -148,6 +153,8 @@ class Controller extends Observer {
    * Stop playback
    */
   async pause() {
+    this.desiredState = 'suspended';
+
     if (this.ac.state !== 'suspended') await this.ac.suspend();
     this.fireEvent('pause');
   }
@@ -186,9 +193,6 @@ class Controller extends Observer {
 
     this.isBuffering = true;
 
-    // store the original state, so that we can resume to that when buffering ends
-    this.preBufferState = this.preBufferState || this.ac.state;
-
     if (this.ac.state === 'running') this.ac.suspend();
   }
 
@@ -197,9 +201,7 @@ class Controller extends Observer {
    * @private
    */
   bufferingEnd() {
-    if (this.preBufferState === 'running') this.ac.resume();
-
-    this.preBufferState = null;
+    if (this.desiredState === 'resumed') this.ac.resume();
 
     this.isBuffering = false;
 
@@ -262,15 +264,10 @@ class Controller extends Observer {
 
     this.fixAdjustedStart(t);
 
-    // seek
-    const { state } = this.ac;
-
-    // suspend the ac before emitting the seek event: disconnecting audio nodes on a runnin ac can cause "cracks" and "pops".
+    // seek: suspend the ac before emitting the seek event: disconnecting audio nodes on a runnin ac can cause "cracks" and "pops".
     this.ac.suspend().then(() => {
       this.fireEvent('seek', { t: this.currentTime, pct: this.pct, remaining: this.remaining });
-      if (state === 'running') {
-        this.ac.resume();
-      }
+      if (this.desiredState === 'resumed' && !this.isBuffering) this.ac.resume();
     });
   }
 
@@ -372,6 +369,7 @@ class Controller extends Observer {
   async reset() {
     await this.pause();
     this.adjustedStart = undefined;
+    this.desiredState = 'suspended';
   }
 
   /**
