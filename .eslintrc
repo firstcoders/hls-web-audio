@@ -3,7 +3,8 @@
   "env": {
     "browser": true,
     "node": false,
-    "mocha": true
+    "mocha": true,
+    "es2021": true
   },
   "plugins": ["prettier"],
   "parser": "@babel/eslint-parser",
@@ -15,6 +16,12 @@
     // 'no-underscore-dangle': ['error', { allow: ['_place'] }],
     "no-underscore-dangle": "off",
     "lines-between-class-members": "off",
-    "no-bitwise": "off"
+    "no-bitwise": "off",
+    "import/extensions": [
+      "error",
+      {
+        "js": "ignorePackages"
+      }
+    ]
   }
 }

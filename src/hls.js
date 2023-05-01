@@ -14,10 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-import { m3u8Parser } from './parser';
-import Controller from './controller';
-import Segment from './segment';
-import Stack from './stack';
+import { m3u8Parser } from './parser.js';
+import Controller from './controller.js';
+import Segment from './segment.js';
+import Stack from './stack.js';
 
 class HLS {
   /**
