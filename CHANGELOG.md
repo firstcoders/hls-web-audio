@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.7](https://github.com/sound-ws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.6...@soundws/hls-web-audio@2.0.0-beta.7) (2023-05-01)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** fix for controller resuming after seek even when buffering ([80ef9cf](https://github.com/sound-ws/hls-web-audio/commit/80ef9cfb20b4a0d2467f4282d609e84269c70e36))
+
+
+
+
+
 # [2.0.0-beta.6](https://github.com/sound-ws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.5...@soundws/hls-web-audio@2.0.0-beta.6) (2023-05-01)
 
 
