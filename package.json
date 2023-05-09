@@ -4,7 +4,7 @@
   "email": "support@firstcoders.co.uk",
   "bugs": "https://github.com/sound-ws/hls-web-audio/issues",
   "homepage": "https://github.com/sound-ws/hls-web-audio",
-  "version": "2.0.0-beta.7",
+  "version": "2.0.0-beta.8",
   "license": "GPL-3.0-or-later",
   "type": "module",
   "main": "index.js",
@@ -34,7 +34,7 @@
     "test": "test"
   },
   "dependencies": {
-    "mpd-m3u8-to-json": "^0.1.3"
+    "@soundws/mpd-m3u8-to-json": "^0.1.4"
   },
   "keywords": [
     "hls",

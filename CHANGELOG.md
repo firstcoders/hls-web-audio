@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.8](https://github.com/sound-ws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.7...@soundws/hls-web-audio@2.0.0-beta.8) (2023-05-09)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** use URL object for segment to validate url ([16e8360](https://github.com/sound-ws/hls-web-audio/commit/16e8360441a0e595513c9128cf4bfe6900b6ebef))
+
+
+
+
+
 # [2.0.0-beta.7](https://github.com/sound-ws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.6...@soundws/hls-web-audio@2.0.0-beta.7) (2023-05-01)
 
 
