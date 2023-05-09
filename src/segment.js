@@ -16,7 +16,7 @@
  */
 class Segment {
   constructor({ src, duration }) {
-    this.src = src;
+    this.src = new URL(src);
     this.duration = duration;
   }
 
@@ -38,7 +38,7 @@ class Segment {
 
     const abortController = new AbortController();
 
-    const promise = fetch(this.src, {
+    const promise = fetch(this.src.toString(), {
       signal: abortController.signal,
     })
       .then(async (r) => {
