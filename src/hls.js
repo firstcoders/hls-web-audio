@@ -14,10 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-import { m3u8Parser } from '@soundws/mpd-m3u8-to-json';
+import * as Parser from '@soundws/mpd-m3u8-to-json';
 import Controller from './controller.js';
 import Segment from './segment.js';
 import Stack from './stack.js';
+
+const { m3u8Parser } = Parser.default;
 
 class HLS {
   /**

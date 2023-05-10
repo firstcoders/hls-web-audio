@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.9](https://github.com/sound-ws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.8...@soundws/hls-web-audio@2.0.0-beta.9) (2023-05-09)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** recompiled mpd-m3u8-to-json as commonjs and fixed bug when string with EXT occurred in a url ([6e67b47](https://github.com/sound-ws/hls-web-audio/commit/6e67b47e4f7fd0c167e5a5f6e155fe1c1d5fcf17))
+
+
+
+
+
 # [2.0.0-beta.8](https://github.com/sound-ws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.7...@soundws/hls-web-audio@2.0.0-beta.8) (2023-05-09)
 
 

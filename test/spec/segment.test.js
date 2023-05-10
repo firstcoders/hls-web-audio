@@ -14,7 +14,9 @@ describe('segment', () => {
 
   describe('#constructor', () => {
     it('sets the src', () => {
-      expect(segment.src).equal('http://localhost:9876/test/fixtures/stem1_segment1.mp3');
+      expect(segment.src.toString()).equal(
+        'http://localhost:9876/test/fixtures/stem1_segment1.mp3'
+      );
     });
 
     it('sets the duration', () => {

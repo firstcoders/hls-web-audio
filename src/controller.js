@@ -47,8 +47,9 @@ class Controller extends Observer {
    * @param {Object} acOpts - An object representing options for auto-instantiating an audiocontext
    * @param {String} refreshRate [250] - How often a "timeupdate" event is triggered
    * @param {Object} destination [audioContext.destination] - The destination audio node on which all audionodes send data
+   * @param {Integer} duration - The duration in seconds
    */
-  constructor({ ac, acOpts, refreshRate, destination } = {}) {
+  constructor({ ac, acOpts, refreshRate, destination, duration } = {}) {
     super();
 
     // use or create a new audioContext
@@ -85,6 +86,9 @@ class Controller extends Observer {
 
     // by default we are suspended
     this.desiredState = 'suspended';
+
+    // set the duration, if supplied
+    if (duration) this.duration = duration;
   }
 
   /**
@@ -216,7 +220,12 @@ class Controller extends Observer {
     if (event === 'loading-start' && !this.canPlay && !this.isBuffering) this.bufferingStart();
     if (event === 'loading-end' && this.canPlay && this.isBuffering) this.bufferingEnd();
     if (event === 'error') this.fireEvent('error', payload);
-    if (event === 'init') this.fireEvent('init', payload);
+    if (event === 'init') {
+      this.fireEvent('init', payload);
+
+      // if a stem has initialised, the duration could have changed
+      this.fireEvent('duration');
+    }
   }
 
   /**
@@ -236,6 +245,9 @@ class Controller extends Observer {
    * @returns {Int} - The max of the duration of the hls tracks that are controlled by this controller
    */
   get duration() {
+    // if the duration was manually set, return that
+    if (this._duration) return this._duration;
+
     const max = Math.max.apply(
       null,
       this.hls.map((hls) => hls.duration).filter((duration) => !!duration)
@@ -243,6 +255,15 @@ class Controller extends Observer {
 
     // when there are no durations, -Infinity can come out of the above calc
     return max > 0 ? max : undefined;
+  }
+
+  /**
+   * Gives the option to override the duration
+   * @param {Integer} duration - The duration in seconds
+   */
+  set duration(duration) {
+    this._duration = duration;
+    this.fireEvent('duration');
   }
 
   /**

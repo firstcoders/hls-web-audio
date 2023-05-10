@@ -430,6 +430,22 @@ describe('controller', () => {
         expect(controller.duration).equal(2);
       });
     });
+
+    describe('when the #duration is set manually', () => {
+      it('emits the "duration" event', () => {
+        let emitted = false;
+        controller.on('duration', () => {
+          emitted = true;
+        });
+        controller.duration = 99;
+        expect(emitted).equal(true);
+      });
+      it('overrides the duration of the tracks', () => {
+        controller.observe({ duration: 2 });
+        controller.duration = 99;
+        expect(controller.duration).equal(99);
+      });
+    });
   });
 
   describe('#currentTime', () => {
