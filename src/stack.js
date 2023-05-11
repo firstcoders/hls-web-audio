@@ -65,11 +65,20 @@ export default class {
    * @returns {Object|undefined}
    */
   consume() {
-    const { current, next } = this;
+    const { current, next, first } = this;
 
     const getNextElement = () => {
       if (current && !current.$inTransit && !current.isReady) return current;
       if (next && !next.$inTransit && !next.isReady) return next;
+
+      // when looping, when we no longer have a next element, this means that we're nearing the end
+      // we then want to pre-load the first element so that we get a smooth transition that does not halt playback
+      if (this.loop && !next && !first.$inTransit && !first.isReady) {
+        // mark the element for scheduling in the upcoming loop
+        first.isInNextLoop = true;
+        return first;
+      }
+
       return undefined;
     };
 
@@ -123,6 +132,13 @@ export default class {
    */
   get next() {
     return this.currentPointer >= 0 ? this.elements?.[this.currentPointer + 1] : undefined;
+  }
+
+  /**
+   * @returns {Object} The first element
+   */
+  get first() {
+    return this.elements[0];
   }
 
   /**

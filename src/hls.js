@@ -155,6 +155,12 @@ class HLS {
    */
   buildSegments(sources) {
     this.stack?.push(...sources.map((source) => new Segment(source)));
+
+    // const [first] = this.stack.elements;
+
+    // const virtual = new Segment({ src: first.src, duration: first.duration });
+    // virtual.$isVirtual = true;
+    // this.stack?.push(virtual);
   }
 
   /**
@@ -201,6 +207,9 @@ class HLS {
     // update the currenttime, so the stack knows what the current and next segment it
     this.stack.currentTime = controller.currentTime;
 
+    // update the loop property
+    this.stack.loop = controller.loop;
+
     // get the next segment
     const segment = this.stack.consume();
 
@@ -215,6 +224,7 @@ class HLS {
       await segment.load().promise;
 
       // connect it to the audio
+      // @todo reverse api to controller.connect(segment) or this.connect(segment)
       await segment.connect({ controller, destination });
 
       this.stack?.recalculateStartTimes();

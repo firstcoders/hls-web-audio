@@ -86,6 +86,20 @@ describe('stack', () => {
         expect(element === undefined);
       });
     });
+
+    describe('if #loop is true and no #next is present', () => {
+      it('return the first element', () => {
+        stack.loop = true;
+        stack.currentTime = 6;
+
+        stack.consume(); // get current
+        const next = stack.consume();
+
+        expect(next !== stack.first);
+        expect(next.isInNextLoop).equal(true);
+        expect(next.$inTransit);
+      });
+    });
   });
 
   describe('#ack()', () => {

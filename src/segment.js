@@ -15,6 +15,11 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 class Segment {
+  /**
+   * @param {Bool} - signpost that indicates that the segment is to be prepared for playback in the upcoming loop
+   */
+  isInNextLoop = false;
+
   constructor({ src, duration }) {
     this.src = new URL(src);
     this.duration = duration;
@@ -86,8 +91,8 @@ class Segment {
     sourceNode.buffer = audioBuffer;
     sourceNode.connect(destination);
 
-    const start = controller.calculateRealStart(this.start);
-    const offset = controller.calculateOffset(this.start);
+    const start = controller.calculateRealStart(this);
+    const offset = controller.calculateOffset(this);
 
     sourceNode.start(start, offset);
 
@@ -100,6 +105,9 @@ class Segment {
 
     // We no longer need the raw data, clear up memory
     this.arrayBuffer = null;
+
+    // unset signpost
+    this.isInNextLoop = undefined;
   }
 
   disconnect() {
