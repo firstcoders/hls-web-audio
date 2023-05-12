@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.10](https://github.com/sound-ws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.9...@soundws/hls-web-audio@2.0.0-beta.10) (2023-05-11)
+
+
+### Features
+
+* **hls-web-audio:** added experimental loop feature with smooth loop ([17e9808](https://github.com/sound-ws/hls-web-audio/commit/17e98081e1fbb36a700a2a14d34478dfc66776f6))
+* **hls-web-audio:** allow setting of duration thereby overriding duration collected from the loaded audio ([068625c](https://github.com/sound-ws/hls-web-audio/commit/068625cc6754cf34acd003d3c308e1ae4dcea8c1))
+
+
+
+
+
 # [2.0.0-beta.9](https://github.com/sound-ws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.8...@soundws/hls-web-audio@2.0.0-beta.9) (2023-05-09)
 
 
