@@ -1,9 +1,9 @@
 {
-  "name": "@stemplayer-js/hls-web-audio",
+  "name": "@sound-ws/hls-web-audio",
   "author": "The First Coders Team (https://www.firstcoders.co.uk)",
   "email": "support@firstcoders.co.uk",
-  "bugs": "https://github.com/stemplayer-js/hls-web-audio/issues",
-  "homepage": "https://github.com/stemplayer-js/hls-web-audio",
+  "bugs": "https://github.com/sound-ws/hls-web-audio/issues",
+  "homepage": "https://github.com/sound-ws/hls-web-audio",
   "version": "2.0.0-beta.11",
   "license": "GPL-3.0-or-later",
   "type": "module",
@@ -17,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/stemplayer-js/hls-web-audio.git"
+    "url": "https://github.com/sound-ws/hls-web-audio.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
