@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.14](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.13...@soundws/hls-web-audio@2.0.0-beta.14) (2023-05-13)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** fix for relative urls ([9a3610f](https://github.com/soundws/hls-web-audio/commit/9a3610fb0e0e119ed8144a9e36922b6b54f6ed79))
+
+
+
+
+
 # [2.0.0-beta.13](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.10...@soundws/hls-web-audio@2.0.0-beta.13) (2023-05-13)
 
 
