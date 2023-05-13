@@ -21,7 +21,7 @@ class Segment {
   isInNextLoop = false;
 
   constructor({ src, duration }) {
-    this.src = new URL(src);
+    this.src = src;
     this.duration = duration;
   }
 
@@ -43,7 +43,7 @@ class Segment {
 
     const abortController = new AbortController();
 
-    const promise = fetch(this.src.toString(), {
+    const promise = fetch(this.src, {
       signal: abortController.signal,
     })
       .then(async (r) => {

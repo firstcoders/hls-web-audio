@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-beta.13](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.10...@soundws/hls-web-audio@2.0.0-beta.13) (2023-05-13)
+
+
+### Reverts
+
+* Revert "chore(hls-web-audio): moved to stemplayer-js repo" ([8e3ee8b](https://github.com/soundws/hls-web-audio/commit/8e3ee8b27c45262dbfbc9d45a61c13e7d4faca63))
+
+
+
+
+
 # 2.0.0-beta.12 (2023-05-13)
 
 ### Bug Fixes
