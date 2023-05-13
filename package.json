@@ -1,10 +1,10 @@
 {
-  "name": "@sound-ws/hls-web-audio",
+  "name": "@soundws/hls-web-audio",
   "author": "The First Coders Team (https://www.firstcoders.co.uk)",
   "email": "support@firstcoders.co.uk",
-  "bugs": "https://github.com/sound-ws/hls-web-audio/issues",
-  "homepage": "https://github.com/sound-ws/hls-web-audio",
-  "version": "2.0.0-beta.11",
+  "bugs": "https://github.com/soundws/hls-web-audio/issues",
+  "homepage": "https://github.com/soundws/hls-web-audio",
+  "version": "2.0.0-beta.12",
   "license": "GPL-3.0-or-later",
   "type": "module",
   "main": "index.js",
@@ -17,7 +17,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/sound-ws/hls-web-audio.git"
+    "url": "https://github.com/soundws/hls-web-audio.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",

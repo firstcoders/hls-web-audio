@@ -13,7 +13,7 @@ and the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Aud
 ## Usage
 
 ```JS
-import { Controller, HLS } from '@sound-ws/hls-web-audio';
+import { Controller, HLS } from '@soundws/hls-web-audio';
 
 // Create a controller to control playback
 const controller = new Controller();
