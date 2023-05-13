@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 2.0.0-beta.11 (2023-05-13)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** do not seek to 0 when playing first time.. merely mark 0 point ([f3c474b](https://github.com/sound-ws/hls-web-audio/commit/f3c474b6ba3a648f2358a7d403153ebd3fa38219))
+* **hls-web-audio:** fix for controller resuming after seek even when buffering ([80ef9cf](https://github.com/sound-ws/hls-web-audio/commit/80ef9cfb20b4a0d2467f4282d609e84269c70e36))
+* **hls-web-audio:** fix for seek out of range. Dont throw error. ([957aa63](https://github.com/sound-ws/hls-web-audio/commit/957aa63bbec249583cd7d2cae79b1f1919bc5e90))
+* **hls-web-audio:** include js file extension of esm modules ([3ffa870](https://github.com/sound-ws/hls-web-audio/commit/3ffa8706ab6d65de69d65410d807910e93fbe7ef))
+* **hls-web-audio:** recompiled mpd-m3u8-to-json as commonjs and fixed bug when string with EXT occurred in a url ([6e67b47](https://github.com/sound-ws/hls-web-audio/commit/6e67b47e4f7fd0c167e5a5f6e155fe1c1d5fcf17))
+* **hls-web-audio:** use URL object for segment to validate url ([16e8360](https://github.com/sound-ws/hls-web-audio/commit/16e8360441a0e595513c9128cf4bfe6900b6ebef))
+
+
+### Features
+
+* **hls-web-audio:** added experimental loop feature with smooth loop ([17e9808](https://github.com/sound-ws/hls-web-audio/commit/17e98081e1fbb36a700a2a14d34478dfc66776f6))
+* **hls-web-audio:** allow setting of duration thereby overriding duration collected from the loaded audio ([068625c](https://github.com/sound-ws/hls-web-audio/commit/068625cc6754cf34acd003d3c308e1ae4dcea8c1))
+* **hls-web-audio:** stop ac before seeking so that disconnecting nodes does not cause cracks and pops, resume after ([5c6b0e2](https://github.com/sound-ws/hls-web-audio/commit/5c6b0e280175e032e46f7ae13e7dd3b68cdf4f46))
+
+
+
+
+
 # [2.0.0-beta.10](https://github.com/sound-ws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.9...@soundws/hls-web-audio@2.0.0-beta.10) (2023-05-11)
 
 
