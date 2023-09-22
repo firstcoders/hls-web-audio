@@ -262,7 +262,7 @@ class Controller extends Observer {
 
     const max = Math.max.apply(
       null,
-      this.hls.map((hls) => hls.duration).filter((duration) => !!duration)
+      this.hls.map((hls) => hls.duration).filter((duration) => !!duration),
     );
 
     // when there are no durations, -Infinity can come out of the above calc
