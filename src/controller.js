@@ -15,8 +15,8 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 import Observer from './observer.js';
-import AudioContext from './audio-context.js';
-import { fadeIn, fadeOut } from './fade.js';
+import AudioContext from './lib/audio-context.js';
+import { fadeIn, fadeOut } from './lib/fade.js';
 
 /**
  * A controller is used to control the playback of one or more HLS tracks

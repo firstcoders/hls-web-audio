@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1-beta.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0...@soundws/hls-web-audio@2.0.1-beta.0) (2023-09-22)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** console.error errors ([faf5b01](https://github.com/soundws/hls-web-audio/commit/faf5b01df62bfca70b18a70fc10bd9e11e56a089))
+
+
+
+
+
 # [2.0.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.14...@soundws/hls-web-audio@2.0.0) (2023-05-13)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
