@@ -14,12 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-import * as Parser from '@soundws/mpd-m3u8-to-json';
 import Controller from './controller.js';
 import Segment from './segment.js';
 import Stack from './stack.js';
-
-const { m3u8Parser } = Parser.default;
+import parseM3u8 from './lib/parseM3u8.js';
 
 class HLS {
   /**
@@ -106,11 +104,15 @@ class HLS {
         return r;
       })
       .then((r) => r.text())
-      .then((r) => this.parseM3u8(r, src))
+      .then((r) => parseM3u8(r, src))
       .then((r) => this.buildSegments(r))
       .then((r) => {
         this.controller?.notify('init', this);
         return r;
+      })
+      .catch((error) => {
+        this.controller.notify('error', error);
+        throw error;
       });
 
     this.loadHandle = {
@@ -129,24 +131,8 @@ class HLS {
    * @param {String} src - The m3u8 location
    */
   loadFromM3u8(manifest, src) {
-    const sources = this.parseM3u8(manifest, src);
+    const sources = parseM3u8(manifest, src);
     this.buildSegments(sources);
-  }
-
-  /**
-   * Parses a m3u8 manifest into a neat structure
-   * @private
-   * @param {String} manifest - The m3u8 manifest
-   * @param {String} src - The src to the m3u8 file
-   * @returns
-   */
-  parseM3u8(manifest, src) {
-    const { segments } = m3u8Parser(manifest, src);
-
-    return segments.map(({ url, end, start }) => ({
-      src: url,
-      duration: end - start,
-    }));
   }
 
   /**

@@ -228,7 +228,10 @@ class Controller extends Observer {
   notify(event, payload) {
     if (event === 'loading-start' && !this.canPlay && !this.isBuffering) this.bufferingStart();
     if (event === 'loading-end' && this.canPlay && this.isBuffering) this.bufferingEnd();
-    if (event === 'error') this.fireEvent('error', payload);
+    if (event === 'error') {
+      this.fireEvent('error', payload);
+      console.error(payload);
+    }
     if (event === 'init') {
       this.fireEvent('init', payload);
 
