@@ -4,7 +4,7 @@
   "email": "support@firstcoders.co.uk",
   "bugs": "https://github.com/soundws/hls-web-audio/issues",
   "homepage": "https://github.com/soundws/hls-web-audio",
-  "version": "2.0.1-beta.3",
+  "version": "2.0.1-beta.4",
   "license": "GPL-3.0-or-later",
   "type": "module",
   "main": "index.js",
@@ -44,6 +44,7 @@
     "streaming"
   ],
   "devDependencies": {
+    "@babel/eslint-parser": "^7.22.15",
     "@babel/preset-env": "^7.22.20",
     "@bundled-es-modules/chai": "^4.3.7",
     "@rollup/plugin-commonjs": "^25.0.4",
@@ -63,8 +64,8 @@
     "sinon": "^15.0.4"
   },
   "scripts": {
-    "test": "web-test-runner --coverage --node-resolve",
-    "test:watch": "web-test-runner --watch",
+    "test": "npx web-test-runner --coverage --node-resolve",
+    "test:watch": "npx web-test-runner --watch",
     "qa": "eslint \"src/**/*.js\"",
     "precommit": "lint-staged"
   }
