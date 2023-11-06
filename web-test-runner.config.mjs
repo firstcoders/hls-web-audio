@@ -41,7 +41,7 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
 
       launchOptions: {
         // executablePath: '/path/to/executable',
-        headless: true,
+        headless: 'new',
         args: [
           '--no-sandbox',
           '--no-first-run',

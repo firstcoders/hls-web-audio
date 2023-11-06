@@ -180,7 +180,6 @@ class Controller extends Observer {
     if (this.currentTime > this.duration) return this.end();
 
     // if (this.currentTime + 1 > this.duration) {
-    // console.log({ tnext: this.currentTime + 5, duration: this.duration });
     // this.startOffset += this.duration;
     // console.log(this.startOffset);
     // this.fixAdjustedStart(0, this.adjustedStart + this.duration);
@@ -230,14 +229,21 @@ class Controller extends Observer {
     if (event === 'loading-end' && this.canPlay && this.isBuffering) this.bufferingEnd();
     if (event === 'error') {
       this.fireEvent('error', payload);
+      // eslint-disable-next-line no-console
       console.error(payload);
     }
+
     if (event === 'init') {
       this.fireEvent('init', payload);
 
       // if a stem has initialised, the duration could have changed
-      this.fireEvent('duration');
+      this.notifyUpdated('duration', this.duration);
     }
+
+    // if a hls.start time has changed (manually set), the duration could have changed
+    if (event === 'start') this.notifyUpdated('duration', this.duration);
+    // if a stem duration is manually set, the duration could have changed
+    if (event === 'duration') this.notifyUpdated('duration', this.duration);
   }
 
   /**
@@ -262,8 +268,11 @@ class Controller extends Observer {
 
     const max = Math.max.apply(
       null,
-      this.hls.map((hls) => hls.duration).filter((duration) => !!duration),
+      this.hls.map((hls) => hls.end).filter((duration) => !!duration),
     );
+
+    // store the previously calculated value
+    this._previousDuration = max;
 
     // when there are no durations, -Infinity can come out of the above calc
     return max > 0 ? max : undefined;
@@ -275,7 +284,7 @@ class Controller extends Observer {
    */
   set duration(duration) {
     this._duration = duration;
-    this.fireEvent('duration');
+    this.notifyUpdated('duration', duration);
   }
 
   /**
@@ -480,6 +489,20 @@ class Controller extends Observer {
       await this.play();
     } catch (err) {
       this.once('pause-end', () => this.play());
+    }
+  }
+
+  /**
+   * Emit an event indicating a change of property, but only if it changed
+   * @param {String} property - the propertyName
+   * @param {String|Int} newvalue - the new value of the property - ONLY SUPPORTS SCALARS ATM
+   */
+  notifyUpdated(property, newvalue) {
+    this.$notifyUpdatedPropertyCache = this.$notifyUpdatedPropertyCache || {};
+
+    if (this.$notifyUpdatedPropertyCache[property] !== newvalue) {
+      this.fireEvent(property, newvalue);
+      this.$notifyUpdatedPropertyCache[property] = newvalue;
     }
   }
 }

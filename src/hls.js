@@ -26,7 +26,15 @@ class HLS {
    * @param {Object} param.volume - The initial volume
    * @param {Object} param.fetchOptions - Options to use when fetching the hls/m3u8
    */
-  constructor({ controller, volume = 1, fetch = null, fetchOptions = {} } = {}) {
+  constructor({
+    controller,
+    volume = 1,
+    fetch = null,
+    fetchOptions = {},
+    start = 0,
+    duration = undefined,
+    offset = 0,
+  } = {}) {
     // optionally set or create controller
     this.controller = controller || new Controller();
 
@@ -49,13 +57,39 @@ class HLS {
     this.volume = volume;
 
     // The stack contains the stack of segments
-    this.stack = new Stack();
+    this.stack = new Stack({ start });
 
     // allows adding to headers for a request
     this.fetchOptions = fetchOptions;
 
     // allow injecting fetch
     this.fetch = fetch;
+
+    // offset the start time
+    this.start = start;
+
+    // duration override
+    this.duration = duration;
+
+    this.offset = offset;
+  }
+
+  set start(start) {
+    this.stack.start = parseFloat(start);
+    this.controller?.notify('start', this);
+  }
+
+  get start() {
+    return this.stack.start;
+  }
+
+  set offset(offset) {
+    this.stack.offset = offset;
+    this.controller?.notify('offset', this);
+  }
+
+  get offset() {
+    return this.stack.offset;
   }
 
   destroy() {
@@ -149,6 +183,11 @@ class HLS {
     // this.stack?.push(virtual);
   }
 
+  set duration(duration) {
+    this.stack.duration = duration;
+    this.controller?.notify('duration', this);
+  }
+
   /**
    * Gets the duration of the hls track
    *
@@ -156,6 +195,15 @@ class HLS {
    */
   get duration() {
     return this.stack.duration;
+  }
+
+  /**
+   * Gets end time of the sample
+   *
+   * @returns Int
+   */
+  get end() {
+    return this.stack.duration + this.stack.start;
   }
 
   /**
@@ -174,6 +222,7 @@ class HLS {
    */
   async onSeek() {
     if (this.controller.ac.state === 'running') {
+      // eslint-disable-next-line no-console
       console.debug('Disconnecting node when audiocontext is running may cause "ticks"');
     }
 

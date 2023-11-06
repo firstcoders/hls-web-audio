@@ -10,7 +10,7 @@ describe('stack', () => {
     stack.push(
       { duration: 1.1, end: 1.1 },
       { duration: 2.2, end: 3.3 },
-      { duration: 3.3, end: 6.6 }
+      { duration: 3.3, end: 6.6 },
     );
   });
 

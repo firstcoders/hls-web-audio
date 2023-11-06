@@ -172,7 +172,7 @@ describe('hls', () => {
       await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
 
       expect(requestOptions.headers.Accept).equal(
-        'application/x-mpegURL, application/vnd.apple.mpegurl'
+        'application/x-mpegURL, application/vnd.apple.mpegurl',
       );
     });
   });
@@ -186,7 +186,7 @@ describe('hls', () => {
 
     it('constructs segments from the data in the m3u8', async () => {
       const manifest = await fetch('http://localhost:9876/test/fixtures/stem1.m3u8').then(
-        (response) => response.text()
+        (response) => response.text(),
       );
 
       hls.loadFromM3u8(manifest, 'http://localhost:9876/test/fixtures/stem1.m3u8');

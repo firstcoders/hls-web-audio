@@ -1,6 +1,7 @@
 import { expect } from '@bundled-es-modules/chai';
 import sinon from 'sinon';
 import Controller from '../../src/controller';
+import HLS from '../../src/hls';
 
 describe('controller', () => {
   describe('#constructor', () => {
@@ -142,7 +143,7 @@ describe('controller', () => {
     let controller;
     beforeEach(() => {
       controller = new Controller();
-      controller.observe({ duration: 100 });
+      controller.observe({ duration: 100, end: 100 });
     });
 
     it('stops ticking', async () => {
@@ -293,7 +294,7 @@ describe('controller', () => {
 
     beforeEach(() => {
       controller = new Controller();
-      hls = { duration: 10 };
+      hls = { duration: 10, end: 10 };
     });
 
     describe('when no hls track is loaded', () => {
@@ -327,9 +328,9 @@ describe('controller', () => {
         });
       });
 
-      it('resumes the audioContext', () => {
+      it('resumes the audioContext', async () => {
         controller.ac.resume = sinon.spy();
-        controller.play();
+        await controller.play();
         expect(controller.ac.resume.calledOnce);
       });
 
@@ -357,7 +358,7 @@ describe('controller', () => {
 
     beforeEach(async () => {
       controller = new Controller({ refreshRate: 100 });
-      controller.observe({ duration: 10, destroy: () => {} });
+      controller.observe({ duration: 10, end: 10, destroy: () => {} });
       await controller.play();
     });
 
@@ -419,14 +420,14 @@ describe('controller', () => {
 
     describe('when a track with #duration 1 is loaded', () => {
       it('returns 1', () => {
-        controller.observe({ duration: 1 });
+        controller.observe({ duration: 1, end: 1 });
         expect(controller.duration).equal(1);
       });
     });
 
     describe('when a track with #duration 2 is loaded', () => {
       it('returns 2', () => {
-        controller.observe({ duration: 2 });
+        controller.observe({ duration: 2, end: 2 });
         expect(controller.duration).equal(2);
       });
     });
@@ -441,9 +442,47 @@ describe('controller', () => {
         expect(emitted).equal(true);
       });
       it('overrides the duration of the tracks', () => {
-        controller.observe({ duration: 2 });
+        controller.observe({ duration: 2, end: 2 });
         controller.duration = 99;
         expect(controller.duration).equal(99);
+      });
+    });
+
+    describe('when the #hls.start is changed', () => {
+      it('emits the duration event if the total duration changed', () => {
+        const hls = new HLS({ controller, duration: 10 });
+        const hls2 = new HLS({ controller, duration: 11 });
+        controller.observe(hls);
+        controller.observe(hls2);
+
+        let eventIsEmitted = false;
+
+        controller.on('duration', () => {
+          eventIsEmitted = true;
+        });
+
+        hls.start = 10;
+
+        expect(eventIsEmitted);
+      });
+    });
+
+    describe('when the #hls.duration manually set', () => {
+      it('emits the duration event if the total duration changed', () => {
+        const hls = new HLS({ controller, duration: 10 });
+        const hls2 = new HLS({ controller, duration: 11 });
+        controller.observe(hls);
+        controller.observe(hls2);
+
+        let eventIsEmitted = false;
+
+        controller.on('duration', () => {
+          eventIsEmitted = true;
+        });
+
+        hls.duration = 20;
+
+        expect(eventIsEmitted);
       });
     });
   });
@@ -469,7 +508,7 @@ describe('controller', () => {
 
     describe('when #duration=10', () => {
       beforeEach(() => {
-        controller.observe({ duration: 10 });
+        controller.observe({ duration: 10, end: 10 });
       });
 
       it('throws an exception if we set #currentTime < 0', () => {
@@ -512,7 +551,7 @@ describe('controller', () => {
     describe('when #duration is 60', () => {
       beforeEach(() => {
         controller = new Controller();
-        controller.observe({ duration: 60 });
+        controller.observe({ duration: 60, end: 60 });
       });
 
       it('sucessfully returns #pct=0.5 set set #pct=0.5', () => {
@@ -588,7 +627,7 @@ describe('controller', () => {
 
     describe('when #currentTime = 30', () => {
       beforeEach(() => {
-        controller.observe({ duration: 60 });
+        controller.observe({ duration: 60, end: 60 });
         controller.currentTime = 30;
       });
 

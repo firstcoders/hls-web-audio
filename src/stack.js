@@ -29,7 +29,23 @@ export default class {
   /**
    * @property {Number} startPointer - an internal pointer pointing to where the start of the next element is
    */
-  startPointer = 0;
+  startPointer;
+
+  /**
+   * @property {Number} startPointer - the initial start time, if not 0
+   */
+  initialStartTime;
+
+  /**
+   * @property {Number} nextMarginSeconds - a marin, in seconds, that controls a rolling window that checks whether a segment is nearly next
+   */
+  nextMarginSeconds;
+
+  constructor({ start = 0, nextMarginSeconds = 5 } = {}) {
+    this.initialStartTime = start;
+    this.startPointer = start;
+    this.nextMarginSeconds = nextMarginSeconds;
+  }
 
   /**
    * Destructor
@@ -68,8 +84,12 @@ export default class {
     const { current, next, first } = this;
 
     const getNextElement = () => {
-      if (current && !current.$inTransit && !current.isReady) return current;
-      if (next && !next.$inTransit && !next.isReady) return next;
+      if (current && !current.$inTransit && !current.isReady) {
+        return current;
+      }
+      if (next && !next.$inTransit && !next.isReady) {
+        return next;
+      }
 
       // when looping, when we no longer have a next element, this means that we're nearing the end
       // we then want to pre-load the first element so that we get a smooth transition that does not halt playback
@@ -108,7 +128,12 @@ export default class {
    * @param {Number} t - the current time
    */
   set currentTime(t) {
+    this._currentTime = t;
     this.currentPointer = this.getIndexAt(t);
+  }
+
+  get currentTime() {
+    return this._currentTime;
   }
 
   /**
@@ -117,7 +142,11 @@ export default class {
    * @returns {Number|undefined}
    */
   get duration() {
-    return this.startPointer;
+    return this.durationOverride || this.startPointer;
+  }
+
+  set duration(duration) {
+    this.durationOverride = duration;
   }
 
   /**
@@ -131,7 +160,17 @@ export default class {
    * @returns {Object} The next elements, based on the currentTime, and a margin
    */
   get next() {
-    return this.currentPointer >= 0 ? this.elements?.[this.currentPointer + 1] : undefined;
+    // return this.currentPointer >= 0 ? this.elements?.[this.currentPointer + 1] : undefined;
+    if (this.currentPointer !== -1) {
+      const i = this.currentPointer + 1;
+      if (i >= 0) return this.elements?.[i];
+    }
+
+    // check if one is upcoming in the near future
+    const iNear = this.getIndexAt(this.currentTime + this.nextMarginSeconds);
+    if (iNear >= 0) return this.elements?.[iNear];
+
+    return undefined;
   }
 
   /**
@@ -188,7 +227,7 @@ export default class {
    * of a segment after decoding the audio data.
    */
   recalculateStartTimes() {
-    this.startPointer = 0;
+    this.startPointer = this.initialStartTime;
 
     this.elements.forEach((s) => {
       // initialise start time of element
@@ -197,5 +236,15 @@ export default class {
       // increment start pointer
       this.startPointer += s.duration;
     });
+  }
+
+  set start(start) {
+    this.initialStartTime = start;
+    this.disconnectAll();
+    this.recalculateStartTimes();
+  }
+
+  get start() {
+    return this.initialStartTime;
   }
 }
