@@ -3,94 +3,55 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.0.1-beta.6](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.1-beta.5...@soundws/hls-web-audio@2.0.1-beta.6) (2023-10-31)
+## [2.0.1-beta.7](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.1-beta.6...@soundws/hls-web-audio@2.0.1-beta.7) (2023-11-09)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
 
+## [2.0.1-beta.6](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.1-beta.5...@soundws/hls-web-audio@2.0.1-beta.6) (2023-10-31)
 
-
-
+**Note:** Version bump only for package @soundws/hls-web-audio
 
 ## [2.0.1-beta.5](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.1-beta.4...@soundws/hls-web-audio@2.0.1-beta.5) (2023-10-02)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
 
-
-
-
-
 ## [2.0.1-beta.4](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.1-beta.3...@soundws/hls-web-audio@2.0.1-beta.4) (2023-09-24)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
-
-
-
-
 
 ## [2.0.1-beta.3](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.1-beta.2...@soundws/hls-web-audio@2.0.1-beta.3) (2023-09-22)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
 
-
-
-
-
 ## [2.0.1-beta.2](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.1-beta.0...@soundws/hls-web-audio@2.0.1-beta.2) (2023-09-22)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
-
-
-
-
 
 ## [2.0.1-beta.1](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.1-beta.0...@soundws/hls-web-audio@2.0.1-beta.1) (2023-09-22)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
 
-
-
-
-
 ## [2.0.1-beta.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0...@soundws/hls-web-audio@2.0.1-beta.0) (2023-09-22)
-
 
 ### Bug Fixes
 
-* **hls-web-audio:** console.error errors ([faf5b01](https://github.com/soundws/hls-web-audio/commit/faf5b01df62bfca70b18a70fc10bd9e11e56a089))
-
-
-
-
+- **hls-web-audio:** console.error errors ([faf5b01](https://github.com/soundws/hls-web-audio/commit/faf5b01df62bfca70b18a70fc10bd9e11e56a089))
 
 # [2.0.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.14...@soundws/hls-web-audio@2.0.0) (2023-05-13)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
 
-
-
-
-
 # [2.0.0-beta.14](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.13...@soundws/hls-web-audio@2.0.0-beta.14) (2023-05-13)
-
 
 ### Bug Fixes
 
-* **hls-web-audio:** fix for relative urls ([9a3610f](https://github.com/soundws/hls-web-audio/commit/9a3610fb0e0e119ed8144a9e36922b6b54f6ed79))
-
-
-
-
+- **hls-web-audio:** fix for relative urls ([9a3610f](https://github.com/soundws/hls-web-audio/commit/9a3610fb0e0e119ed8144a9e36922b6b54f6ed79))
 
 # [2.0.0-beta.13](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.0-beta.10...@soundws/hls-web-audio@2.0.0-beta.13) (2023-05-13)
 
-
 ### Reverts
 
-* Revert "chore(hls-web-audio): moved to stemplayer-js repo" ([8e3ee8b](https://github.com/soundws/hls-web-audio/commit/8e3ee8b27c45262dbfbc9d45a61c13e7d4faca63))
-
-
-
-
+- Revert "chore(hls-web-audio): moved to stemplayer-js repo" ([8e3ee8b](https://github.com/soundws/hls-web-audio/commit/8e3ee8b27c45262dbfbc9d45a61c13e7d4faca63))
 
 # 2.0.0-beta.12 (2023-05-13)
 
