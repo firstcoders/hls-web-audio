@@ -17,6 +17,8 @@
 import Observer from './observer.js';
 import AudioContext from './lib/audio-context.js';
 import { fadeIn, fadeOut } from './lib/fade.js';
+import isIOS from './lib/isIOS';
+import unmuteAudioContext from './lib/unmuteAudioContext.js';
 
 /**
  * A controller is used to control the playback of one or more HLS tracks
@@ -48,12 +50,16 @@ class Controller extends Observer {
    * @param {String} refreshRate [250] - How often a "timeupdate" event is triggered
    * @param {Object} destination [audioContext.destination] - The destination audio node on which all audionodes send data
    * @param {Integer} duration - The duration in seconds
+   * @param {Boolean} unmuteAc - Unmute the AC so the we can playback with the IOS mute switch on
    */
-  constructor({ ac, acOpts, refreshRate, destination, duration, loop } = {}) {
+  constructor({ ac, acOpts, refreshRate, destination, duration, loop, unmuteAc = true } = {}) {
     super();
 
     // use or create a new audioContext
     this.ac = ac || new AudioContext(acOpts);
+
+    // unmute the AC
+    if (unmuteAc && isIOS()) unmuteAudioContext(this.ac);
 
     // if we create a new audiocontext here, we will want to destroy it later to free up memory
     // see https://developer.mozilla.org/en-US/docs/Web/API/AudioContext/close
