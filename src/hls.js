@@ -145,7 +145,7 @@ class HLS {
         return r;
       })
       .catch((error) => {
-        this.controller.notify('error', error);
+        this.controller?.notify('error', error);
         throw error;
       });
 
@@ -265,7 +265,7 @@ class HLS {
       this.stack?.recalculateStartTimes();
     } catch (err) {
       if (err.name !== 'AbortError') {
-        this.controller.notify('error', err);
+        this.controller?.notify('error', err);
       }
     } finally {
       // release the segment

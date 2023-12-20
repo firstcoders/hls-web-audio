@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0-beta.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.1-beta.7...@soundws/hls-web-audio@2.1.0-beta.0) (2023-12-16)
+
+### Features
+
+- **hls-web-audio:** added IOS unmute ([4731242](https://github.com/soundws/hls-web-audio/commit/473124228b23d3702b0ffd821e6175347f91c6be))
+
 ## [2.0.1-beta.7](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.1-beta.6...@soundws/hls-web-audio@2.0.1-beta.7) (2023-11-09)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
