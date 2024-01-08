@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0-beta.1](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.1.0-beta.0...@soundws/hls-web-audio@2.1.0-beta.1) (2024-01-08)
+
+### Bug Fixes
+
+- **hls-web-audio:** optional chaining when calling method on object that may have been destroyed ([42fd5fe](https://github.com/soundws/hls-web-audio/commit/42fd5fe3d5a083c7530d3ba59caeea0b3ada1a49))
+
 # [2.1.0-beta.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.0.1-beta.7...@soundws/hls-web-audio@2.1.0-beta.0) (2023-12-16)
 
 ### Features
