@@ -2,7 +2,7 @@
 
 A package allowing for steaming multiple audio tracks with precision.
 
-It uses the [HLS protocol](https://en.wikipedia.org/wiki/HTTP_Live_Streaming), however it will play any audio format that is supported by the relevent browser
+It uses the [HLS protocol](https://en.wikipedia.org/wiki/HTTP_Live_Streaming), however it will play any audio format that is supported by the relevant browser
 
 and the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API).
 

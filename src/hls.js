@@ -174,7 +174,9 @@ class HLS {
    * @param {Array} sources - An array containing the segment data
    */
   buildSegments(sources) {
-    this.stack?.push(...sources.map((source) => new Segment(source)));
+    this.stack?.push(
+      ...sources.map((source) => new Segment({ ...source, fetchOptions: this.fetchOptions })),
+    );
 
     // const [first] = this.stack.elements;
 

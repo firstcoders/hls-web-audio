@@ -20,9 +20,16 @@ class Segment {
    */
   isInNextLoop = false;
 
-  constructor({ src, duration }) {
+  /**
+   * @param {Object} param - The params
+   * @param {Object} param.src - The src url
+   * @param {Object} param.duration - The duration
+   * @param {Object} param.fetchOptions - Options to use when fetching the hls/m3u8
+   */
+  constructor({ src, duration, fetchOptions = {} }) {
     this.src = src;
     this.duration = duration;
+    this.fetchOptions = fetchOptions;
   }
 
   destroy() {
@@ -45,6 +52,7 @@ class Segment {
 
     const promise = fetch(this.src, {
       signal: abortController.signal,
+      ...this.fetchOptions,
     })
       .then(async (r) => {
         // store the audio data

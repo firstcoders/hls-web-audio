@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.1.0-beta.1...@soundws/hls-web-audio@2.1.0) (2024-02-04)
+
+**Note:** Version bump only for package @soundws/hls-web-audio
+
 # [2.1.0-beta.1](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.1.0-beta.0...@soundws/hls-web-audio@2.1.0-beta.1) (2024-01-08)
 
 ### Bug Fixes

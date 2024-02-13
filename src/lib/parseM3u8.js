@@ -14,9 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
-import * as Parser from '@soundws/mpd-m3u8-to-json';
-
-const { m3u8Parser } = Parser.default;
+import m3u8Parser from '../../vendor/mpd-m3u8-to-json/m3u8Parser.js';
 
 /**
  * Parses a m3u8 manifest into a neat structure
@@ -26,16 +24,10 @@ const { m3u8Parser } = Parser.default;
  * @returns
  */
 export default (manifest, src) => {
-  try {
-    const { segments } = m3u8Parser(manifest, src);
+  const { segments } = m3u8Parser(manifest, src);
 
-    return segments.map(({ url, end, start }) => ({
-      src: url,
-      duration: end - start,
-    }));
-  } catch (error) {
-    const e = new Error(`Failed to parse m3u8 ${src}`);
-    e.originalError = error;
-    throw e;
-  }
+  return segments.map(({ url, end, start }) => ({
+    src: url,
+    duration: end - start,
+  }));
 };
