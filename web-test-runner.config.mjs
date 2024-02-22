@@ -1,4 +1,4 @@
-import { puppeteerLauncher } from '@web/test-runner-puppeteer';
+import { playwrightLauncher } from '@web/test-runner-playwright';
 import { fromRollup } from '@web/dev-server-rollup';
 import commonjs from '@rollup/plugin-commonjs';
 
@@ -36,18 +36,17 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
 
   /** Browsers to run tests on */
   browsers: [
-    puppeteerLauncher({
-      concurrency: 1,
-
+    playwrightLauncher({
+      product: 'chromium',
       launchOptions: {
         // executablePath: '/path/to/executable',
-        headless: 'new',
+        headless: true,
         args: [
           '--no-sandbox',
           '--no-first-run',
           '--noerrdialogs',
           '--no-default-browser-check',
-          '--user-data-dir=.chrome',
+          // '--user-data-dir=.chrome',
           '--disable-translate',
           '--disable-extensions',
           '--disable-infobars',
