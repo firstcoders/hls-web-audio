@@ -30,6 +30,7 @@
   },
   "files": [
     "src",
+    "vendor",
     "CHANGELOG.md",
     "LICENSE",
     "README.md",
