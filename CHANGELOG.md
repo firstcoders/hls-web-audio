@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0-beta.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.1.0...@soundws/hls-web-audio@2.2.0-beta.0) (2024-02-23)
+
+### Features
+
+- **hls-web-audio:** added fetchoptions to segment fetch request ([3795f8c](https://github.com/soundws/hls-web-audio/commit/3795f8cb57ed018e897234e14f30d4bd89102616))
+
 # [2.1.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.1.0-beta.1...@soundws/hls-web-audio@2.1.0) (2024-02-04)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
