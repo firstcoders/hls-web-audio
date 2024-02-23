@@ -4,7 +4,7 @@
   "email": "support@firstcoders.co.uk",
   "bugs": "https://github.com/soundws/hls-web-audio/issues",
   "homepage": "https://github.com/soundws/hls-web-audio",
-  "version": "2.2.0-beta.0",
+  "version": "2.2.0-beta.1",
   "license": "GPL-3.0-or-later",
   "type": "module",
   "main": "index.js",
