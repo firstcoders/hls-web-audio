@@ -28,14 +28,6 @@
     "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
-  "files": [
-    "src",
-    "vendor",
-    "CHANGELOG.md",
-    "LICENSE",
-    "README.md",
-    "index.js"
-  ],
   "directories": {
     "test": "test"
   },
