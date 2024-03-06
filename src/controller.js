@@ -142,9 +142,9 @@ class Controller extends Observer {
     this.notifyUpdated('duration', this.duration);
 
     // when HLS are removed and no more are remaining, end
-    if (this.hls.length === 0) {
-      this.end();
-    }
+    // if (this.hls.length === 0) {
+    //   this.end();
+    // }
   }
 
   /**
