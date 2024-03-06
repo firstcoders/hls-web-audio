@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.1-beta.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.2.0...@soundws/hls-web-audio@2.2.1-beta.0) (2024-03-06)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** do not seek if no duration is set ([fc7f835](https://github.com/soundws/hls-web-audio/commit/fc7f835d406e232e69166602d8968823502679c9))
+* **hls-web-audio:** emit duration when hls is unobserved ([3155110](https://github.com/soundws/hls-web-audio/commit/31551107c34b4bdd699e0fbf50971b11d3079681))
+
+
+
+
+
 # [2.2.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.2.0-beta.2...@soundws/hls-web-audio@2.2.0) (2024-02-29)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
