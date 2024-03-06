@@ -139,6 +139,12 @@ class Controller extends Observer {
    */
   unobserve(hls) {
     this.hls.splice(this.hls.indexOf(hls), 1);
+    this.notifyUpdated('duration', this.duration);
+
+    // when HLS are removed and no more are remaining, end
+    if (this.hls.length === 0) {
+      this.end();
+    }
   }
 
   /**
@@ -344,16 +350,18 @@ class Controller extends Observer {
   }
 
   /**
-   * Sets the current time, in percent
-   * @param {Integer} pct - The current time between 0 and 1
+   * Sets the current time
+   * @param {Integer} n - The current time between 0 and 1
    */
-  set pct(pct) {
-    let factor = pct;
+  set pct(n) {
+    if (this.duration) {
+      let factor = n;
 
-    if (factor < 0) factor = 0;
-    if (factor > 1) factor = 1;
+      if (factor < 0) factor = 0;
+      if (factor > 1) factor = 1;
 
-    this.currentTime = factor * this.duration;
+      this.currentTime = factor * this.duration;
+    }
   }
 
   /**
