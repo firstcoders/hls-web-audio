@@ -15,7 +15,7 @@ describe('segment', () => {
   describe('#constructor', () => {
     it('sets the src', () => {
       expect(segment.src.toString()).equal(
-        'http://localhost:9876/test/fixtures/stem1_segment1.mp3'
+        'http://localhost:9876/test/fixtures/stem1_segment1.mp3',
       );
     });
 
@@ -36,7 +36,7 @@ describe('segment', () => {
     it('disconnects any audio sourceNode', async () => {
       const controller = new Controller();
       await segment.load().promise;
-      await segment.connect({ controller, destination: controller.destination });
+      await segment.connect({ ac: controller.ac, destination: controller.destination });
 
       expect(segment.isReady);
 
@@ -71,7 +71,7 @@ describe('segment', () => {
     beforeEach(async () => {
       controller = new Controller();
       await segment.load().promise;
-      await segment.connect({ controller, destination: controller.destination });
+      await segment.connect({ ac: controller.ac, destination: controller.destination });
     });
 
     it('connects a audionode', async () => {
@@ -92,7 +92,7 @@ describe('segment', () => {
 
     it('disconnects the audionode', async () => {
       await segment.load().promise;
-      await segment.connect({ controller, destination: controller.destination });
+      await segment.connect({ ac: controller.ac, destination: controller.destination });
 
       expect(segment.isReady);
 
@@ -115,8 +115,7 @@ describe('segment', () => {
 
     it('returns true if an audionode is connected', async () => {
       await segment.load().promise;
-      await segment.connect({ controller, destination: controller.destination });
-
+      await segment.connect({ ac: controller.ac, destination: controller.destination });
       expect(segment.isReady);
     });
   });

@@ -16,11 +16,6 @@
  */
 export default class {
   /**
-   * @property {Number} startPointer - an internal pointer pointing to where the current element is
-   */
-  currentPointer = 0;
-
-  /**
    * @property {Array} elements - The ordered elements that jointly compose this HLS track
    * @private
    */
@@ -40,6 +35,11 @@ export default class {
    * @property {Number} nextMarginSeconds - a marin, in seconds, that controls a rolling window that checks whether a segment is nearly next
    */
   nextMarginSeconds;
+
+  /**
+   * @property {Number|undefined} - a duration set externally rather than derived from loaded audio
+   */
+  #duration;
 
   constructor({ start = 0, nextMarginSeconds = 5 } = {}) {
     this.initialStartTime = start;
@@ -80,23 +80,19 @@ export default class {
    * Try to get the next element that is not ready
    * @returns {Object|undefined}
    */
-  consume() {
-    const { current, next, first } = this;
+  consume(timeframe) {
+    const iCurrent = this.getIndexAt(timeframe.currentTime);
+    const current = this.elements[iCurrent];
+    const next = this.elements[iCurrent + 1];
 
     const getNextElement = () => {
       if (current && !current.$inTransit && !current.isReady) {
         return current;
       }
-      if (next && !next.$inTransit && !next.isReady) {
-        return next;
-      }
 
-      // when looping, when we no longer have a next element, this means that we're nearing the end
-      // we then want to pre-load the first element so that we get a smooth transition that does not halt playback
-      if (this.loop && !next && !first.$inTransit && !first.isReady) {
-        // mark the element for scheduling in the upcoming loop
-        first.isInNextLoop = true;
-        return first;
+      // ensure the next is in the play window (<timeframe.end)
+      if (next && next.start < timeframe.end && !next.$inTransit && !next.isReady) {
+        return next;
       }
 
       return undefined;
@@ -123,17 +119,10 @@ export default class {
   }
 
   /**
-   * Update the current time pointer
-   *
-   * @param {Number} t - the current time
+   * The default duration as defined by the audio segments
    */
-  set currentTime(t) {
-    this._currentTime = t;
-    this.currentPointer = this.getIndexAt(t);
-  }
-
-  get currentTime() {
-    return this._currentTime;
+  get audioDuration() {
+    return this.startPointer;
   }
 
   /**
@@ -142,35 +131,16 @@ export default class {
    * @returns {Number|undefined}
    */
   get duration() {
-    return this.durationOverride || this.startPointer;
+    return this.#duration || this.audioDuration;
   }
 
+  /**
+   * Manually set the duration
+   *
+   * @param {Number} duration - the duration
+   */
   set duration(duration) {
-    this.durationOverride = duration;
-  }
-
-  /**
-   * @returns {Object} The current element, based on the currentTime
-   */
-  get current() {
-    return this.elements[this.currentPointer];
-  }
-
-  /**
-   * @returns {Object} The next elements, based on the currentTime, and a margin
-   */
-  get next() {
-    // return this.currentPointer >= 0 ? this.elements?.[this.currentPointer + 1] : undefined;
-    if (this.currentPointer !== -1) {
-      const i = this.currentPointer + 1;
-      if (i >= 0) return this.elements?.[i];
-    }
-
-    // check if one is upcoming in the near future
-    const iNear = this.getIndexAt(this.currentTime + this.nextMarginSeconds);
-    if (iNear >= 0) return this.elements?.[iNear];
-
-    return undefined;
+    this.#duration = duration;
   }
 
   /**
@@ -238,6 +208,9 @@ export default class {
     });
   }
 
+  /**
+   * @deprecated
+   */
   set start(start) {
     this.initialStartTime = start;
     this.disconnectAll();
@@ -246,5 +219,15 @@ export default class {
 
   get start() {
     return this.initialStartTime;
+  }
+
+  set offset(offset) {
+    this._offset = offset;
+    this.disconnectAll();
+    this.recalculateStartTimes();
+  }
+
+  get offset() {
+    return this._offset;
   }
 }

@@ -15,10 +15,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 class Segment {
-  /**
-   * @param {Bool} - signpost that indicates that the segment is to be prepared for playback in the upcoming loop
-   */
-  isInNextLoop = false;
+  #sourceNode;
+  #arrayBuffer;
+  #audioBuffer;
+  #cacheClearTimeout;
 
   /**
    * @param {Object} param - The params
@@ -40,7 +40,9 @@ class Segment {
     if (this.isReady) this.disconnect();
 
     // cleanup
-    this.arrayBuffer = null;
+    this.#arrayBuffer = null;
+    this.#audioBuffer = null;
+    // this.#sourceNode = null; // reference is cleared on disconnect
   }
 
   load() {
@@ -56,7 +58,7 @@ class Segment {
     })
       .then(async (r) => {
         // store the audio data
-        this.arrayBuffer = await r.arrayBuffer();
+        this.#arrayBuffer = await r.arrayBuffer();
       })
       .catch((err) => {
         if (err.name !== 'AbortError') {
@@ -85,41 +87,32 @@ class Segment {
     return this.loadHandle;
   }
 
-  async connect({ destination, controller }) {
-    if (this.sourceNode) throw new Error('Cannot connect a segment twice');
-    if (!this.arrayBuffer) throw new Error('Cannot connect. No audio data in buffer.');
+  async connect({ destination, ac, start, offset, stop }) {
+    if (this.#sourceNode) throw new Error('Cannot connect a segment twice');
 
-    const { ac } = controller;
-    const audioBuffer = await ac.decodeAudioData(this.arrayBuffer);
+    if (this.#cacheClearTimeout) clearTimeout(this.#cacheClearTimeout);
 
-    // update the expected duration (from m3u8 file) with the real duration from the decoded audio
-    this.duration = audioBuffer.duration;
-
-    const sourceNode = ac.createBufferSource();
-    sourceNode.buffer = audioBuffer;
-    sourceNode.connect(destination);
-
-    const start = controller.calculateRealStart(this);
-    const offset = controller.calculateOffset(this);
-
-    sourceNode.start(start, offset);
-
-    // disconnect with a timeout, otherwise we get a situation whether the removal of the sourceNode
-    // causes the "current" segment to be seen as !isReady
-    sourceNode.onended = () => setTimeout(() => this.disconnect(), 500);
-
-    // store reference
-    this.sourceNode = sourceNode;
+    if (!this.#audioBuffer) {
+      if (!this.#arrayBuffer) throw new Error('Cannot connect. No audio data in buffer.');
+      this.#audioBuffer = await ac.decodeAudioData(this.#arrayBuffer);
+    }
 
     // We no longer need the raw data, clear up memory
-    this.arrayBuffer = null;
+    this.#arrayBuffer = null;
 
-    // unset signpost
-    this.isInNextLoop = undefined;
+    // update the expected duration (from m3u8 file) with the real duration from the decoded audio
+    this.duration = this.#audioBuffer.duration;
+
+    this.#sourceNode = ac.createBufferSource();
+    this.#sourceNode.buffer = this.#audioBuffer;
+    this.#sourceNode.connect(destination);
+    this.#sourceNode.onended = (e) => setTimeout(() => this.disconnect(e), 0);
+    this.#sourceNode.start(start, offset);
+    this.#sourceNode.stop(stop);
   }
 
   disconnect() {
-    const { sourceNode } = this;
+    const sourceNode = this.#sourceNode;
 
     if (sourceNode) {
       sourceNode.disconnect();
@@ -130,12 +123,19 @@ class Segment {
       // some browsers (e.g. edge) don't like nulling the buffer
       try {
         sourceNode.buffer = null;
-      } catch (e) {
+      } catch (ex) {
         // ignore
       }
 
       // remove reference
-      this.sourceNode = null;
+      this.#sourceNode = null;
+
+      // schedule the cleanup of the cache
+      // we dont do this immediately so that if the sement is re-scheduled soon after it can benefit
+      // from an already decoded audio buffer. However we do need to clean it eventually for memory management.
+      this.#cacheClearTimeout = setTimeout(() => {
+        this.#audioBuffer = undefined;
+      }, 10000);
     }
   }
 
@@ -145,7 +145,7 @@ class Segment {
    * @returns {Boolean}
    */
   get isReady() {
-    return !!this.sourceNode;
+    return !!this.#sourceNode;
   }
 
   /**
@@ -164,6 +164,13 @@ class Segment {
    */
   get end() {
     return this.start !== undefined ? this.start + this.duration : undefined;
+  }
+
+  /**
+   * Whether the sement has audio data that is loaded
+   */
+  get isLoaded() {
+    return !!this.#audioBuffer;
   }
 }
 

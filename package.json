@@ -58,10 +58,53 @@
     "prettier": "^3.2.5",
     "sinon": "^15.0.4"
   },
+  "eslintConfig": {
+    "extends": [
+      "airbnb-base",
+      "prettier"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "parser": "@babel/eslint-parser",
+    "env": {
+      "browser": true,
+      "node": false,
+      "mocha": true,
+      "es2021": true
+    },
+    "rules": {
+      "class-methods-use-this": 0,
+      "no-param-reassign": [
+        "error",
+        {
+          "props": false
+        }
+      ],
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": true
+        }
+      ],
+      "prettier/prettier": [
+        "error"
+      ],
+      "no-underscore-dangle": "off",
+      "lines-between-class-members": "off",
+      "no-bitwise": "off",
+      "import/extensions": [
+        "error",
+        {
+          "js": "ignorePackages"
+        }
+      ]
+    }
+  },
   "scripts": {
     "test": "npx web-test-runner --coverage --node-resolve",
     "test:watch": "npx web-test-runner --watch",
-    "lint": "eslint \"src/**/*.js\"",
+    "lint": "eslint --ext .js . --ignore-path .gitignore && prettier \"**/*.js\" --check --ignore-path .gitignore",
     "precommit": "lint-staged"
   }
 }

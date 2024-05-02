@@ -226,7 +226,7 @@ describe('hls', () => {
     it('disconnects all segments', async () => {
       await hls.runSchedulePass(); // loads the current one and marks the current segment as ready (only segments that are ready will have to be disconnected)
 
-      const { current } = hls.stack;
+      const current = hls.stack.getAt(0);
 
       current.disconnect = sinon.spy();
 
@@ -236,11 +236,13 @@ describe('hls', () => {
     });
 
     it('cancels any segment loading', async () => {
-      hls.stack.current.cancel = sinon.spy();
+      const current = hls.stack.getAt(0);
+
+      current.cancel = sinon.spy();
 
       hls.controller.currentTime = 8; // initiate the seek which will trigger the disconnect
 
-      expect(hls.stack.current.cancel.calledOnce);
+      expect(current.cancel.calledOnce);
     });
   });
 
@@ -274,7 +276,9 @@ describe('hls', () => {
         });
 
         it('loads the next segment and connects it', async () => {
-          const { current, next } = hls.stack;
+          const currentIndex = hls.stack.getIndexAt(0);
+          const current = hls.stack.elements[currentIndex];
+          const next = hls.stack.elements[currentIndex + 1];
 
           current.connect = sinon.spy();
           next.connect = sinon.spy();
@@ -297,7 +301,9 @@ describe('hls', () => {
           // await hls.runSchedulePass(); // loads the current one
           // await hls.runSchedulePass(); // loads the next one
 
-          const { current, next } = hls.stack;
+          const currentIndex = hls.stack.getIndexAt(0);
+          const current = hls.stack.elements[currentIndex];
+          const next = hls.stack.elements[currentIndex + 1];
 
           // sets them as loaded (easier than really loading via runSchedulePass)
           current.sourceNode = {};
