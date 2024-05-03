@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0-beta.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.2.1...@soundws/hls-web-audio@2.3.0-beta.0) (2024-05-03)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** ensure seeking takes into account offset and playduration ([802249d](https://github.com/soundws/hls-web-audio/commit/802249d8b70a57b6d7b33331d3f15ef29d199144))
+
+
+### Features
+
+* **hls-web-audio:** added offset and duration and rewrote loop functionality ([a4c9b49](https://github.com/soundws/hls-web-audio/commit/a4c9b49e9512d0599c6dd27238eb0b5498bf8b02))
+
+
+
+
+
 ## [2.2.1](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.2.1-beta.4...@soundws/hls-web-audio@2.2.1) (2024-04-09)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
