@@ -289,7 +289,11 @@ class Controller extends Observer {
    * @param {Integer} duration - The duration in seconds
    */
   set playDuration(duration) {
+    if (typeof duration !== 'number')
+      throw new TypeError('The property "playDuration" must be of type number');
+
     this.durationOverride = duration;
+
     this.notifyUpdated('playDuration', this.playDuration);
   }
 
@@ -318,6 +322,9 @@ class Controller extends Observer {
    * @param {Integer} duration - The offset in seconds
    */
   set offset(offset = 0) {
+    if (typeof offset !== 'number')
+      throw new TypeError('The property "offset" must be of type number');
+
     this.#offset = offset;
     this.notifyUpdated('offset', this.offset);
   }
