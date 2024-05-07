@@ -35,7 +35,7 @@ class Controller extends Observer {
    *                ---------------------                        // a 10 second track, seeked to 5s at t = 0 => adjustedStart = -5
    *        ---------------------                                // a 10 second track, seeked to 9s at t = 0 => adjustedStart = -9
    */
-  _adjustedStart;
+  adjustedStart;
 
   /**
    * @property {Array} hls - The HLS tracks being controlled by this controller
@@ -387,33 +387,6 @@ class Controller extends Observer {
       offset: this.offset,
     });
   }
-
-  /**
-   * Calculates future relative time by taking into accont offset and playDuration
-   * @param {Number} t
-   * @returns
-   */
-  // calculateFutureTime(t = 5) {
-  //   const currentTime = this.ac.currentTime + t;
-  //   let adjustedStart = this.getAdjustedStartAt(currentTime);
-  //   let rawCurrentTime = currentTime - adjustedStart;
-
-  //   if (rawCurrentTime < this.offset) {
-  //     adjustedStart = this.getAdjustedStartAt(this.offset);
-  //     rawCurrentTime = currentTime - adjustedStart;
-  //   }
-
-  //   if (rawCurrentTime >= this.offset + this.playDuration) {
-  //     adjustedStart = this.getAdjustedStartAt(this.offset);
-  //     rawCurrentTime = currentTime - adjustedStart;
-  //   }
-
-  //   return currentTime - adjustedStart;
-  // }
-
-  // getAdjustedStartAt(t, acCurrentTime) {
-  //   return Math.floor(acCurrentTime || this.ac.currentTime - t * 10) / 10;
-  // }
 
   /**
    * @returns {Integer|undefined} - The current time, in seconds, without taking loop into consideration
