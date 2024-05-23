@@ -400,7 +400,6 @@ class Controller extends Observer {
    * @param {Float} t
    */
   fixAdjustedStart(t) {
-    // We round as extreme precise floating point numbers were causing slight rounding(?) errors in scheduling, resulting in ticks
     this.adjustedStart = this.ac.currentTime - t;
   }
 
