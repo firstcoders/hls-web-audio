@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0-beta.2](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.3.0-beta.1...@soundws/hls-web-audio@2.3.0-beta.2) (2024-05-23)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** fix for setting unsetting duration override throwing error ([b748359](https://github.com/soundws/hls-web-audio/commit/b748359976d55e6e73799ec5585a916ceaf55969))
+
+
+
+
+
 # [2.3.0-beta.1](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.3.0-beta.0...@soundws/hls-web-audio@2.3.0-beta.1) (2024-05-06)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
