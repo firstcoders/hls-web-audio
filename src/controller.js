@@ -289,7 +289,7 @@ class Controller extends Observer {
    * @param {Integer} duration - The duration in seconds
    */
   set playDuration(duration) {
-    if (typeof duration !== 'number')
+    if (duration && typeof duration !== 'number')
       throw new TypeError('The property "playDuration" must be of type number');
 
     this.durationOverride = duration;
