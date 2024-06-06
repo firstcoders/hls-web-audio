@@ -1,6 +1,4 @@
 import { playwrightLauncher } from '@web/test-runner-playwright';
-import { fromRollup } from '@web/dev-server-rollup';
-import commonjs from '@rollup/plugin-commonjs';
 
 const filteredLogs = ['Running in dev mode', 'lit-html is in dev mode', 'Lit is in dev mode'];
 
@@ -66,15 +64,4 @@ export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
       timeout: '5000',
     },
   },
-
-  plugins: [
-    fromRollup(commonjs)({
-      exclude: [
-        '**/node_modules/@open-wc/**/*',
-        '**/node_modules/chai/**/*',
-        '**/node_modules/chai-dom/**/*',
-        '**/node_modules/sinon-chai/**/*',
-      ],
-    }),
-  ],
 });
