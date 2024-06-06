@@ -39,9 +39,6 @@
     "streaming"
   ],
   "devDependencies": {
-    "@babel/core": "^7.24.6",
-    "@babel/eslint-parser": "^7.24.6",
-    "@babel/preset-env": "^7.24.6",
     "@bundled-es-modules/chai": "^4.3.7",
     "@web/test-runner-mocha": "^0.9.0",
     "@web/test-runner-playwright": "^0.11.0",
@@ -63,12 +60,16 @@
     "plugins": [
       "prettier"
     ],
-    "parser": "@babel/eslint-parser",
     "env": {
       "browser": true,
       "node": false,
       "mocha": true,
-      "es2021": true
+      "es2021": true,
+      "es6": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 13,
+      "sourceType": "module"
     },
     "rules": {
       "class-methods-use-this": 0,
