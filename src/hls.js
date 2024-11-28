@@ -144,10 +144,13 @@ class HLS {
           resolve(r);
         })
         .catch((error) => {
-          if (error.name !== 'AbortError') {
-            this.controller?.notify('error', error);
-            reject(error);
+          // dont consider AbortError an error (todo, reconsider?)
+          if (error.name === 'AbortError') {
+            resolve();
           }
+
+          this.controller?.notify('error', error);
+          reject(error);
         });
     });
 
