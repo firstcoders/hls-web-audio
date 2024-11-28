@@ -118,39 +118,41 @@ class HLS {
 
     const abortController = new AbortController();
 
-    const promise = (this.fetch || fetch)(src, {
-      signal: abortController.signal,
-      ...this.fetchOptions,
-      headers: {
-        Accept: 'application/x-mpegURL, application/vnd.apple.mpegurl',
-        ...this.fetchOptions?.headers,
-      },
-    })
-      .then((r) => {
-        if (!r.ok) {
-          const error = new Error('HLS Fetch failed');
-          error.name = 'HLSLoadError';
-          error.response = r;
-          throw error;
-        }
-        return r;
+    const promise = new Promise((resolve, reject) => {
+      (this.fetch || fetch)(src, {
+        signal: abortController.signal,
+        ...this.fetchOptions,
+        headers: {
+          Accept: 'application/x-mpegURL, application/vnd.apple.mpegurl',
+          ...this.fetchOptions?.headers,
+        },
       })
-      .then((r) => r.text())
-      .then((r) => parseM3u8(r, src))
-      .then((r) => this.buildSegments(r))
-      .then((r) => {
-        this.controller?.notify('init', this);
-        return r;
-      })
-      .catch((error) => {
-        this.controller?.notify('error', error);
-        throw error;
-      });
+        .then((r) => {
+          if (!r.ok) {
+            const error = new Error('HLS Fetch failed');
+            error.name = 'HLSLoadError';
+            error.response = r;
+            throw error;
+          }
+          return r;
+        })
+        .then((r) => r.text())
+        .then((r) => parseM3u8(r, src))
+        .then((r) => {
+          this.buildSegments(r);
+          this.controller?.notify('init', this);
+          resolve(r);
+        })
+        .catch((error) => {
+          if (error.name !== 'AbortError') {
+            this.controller?.notify('error', error);
+            reject(error);
+          }
+        });
+    });
 
     this.loadHandle = {
-      promise: promise.catch((err) => {
-        if (err.name !== 'AbortError') throw err;
-      }),
+      promise,
       cancel: () => abortController.abort(),
     };
 
