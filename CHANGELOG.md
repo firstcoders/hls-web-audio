@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.1-beta.0](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.4.0...@firstcoders/hls-web-audio@2.4.1-beta.0) (2024-11-28)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** fix for hls.load resolving returned promise too soon ([a5f12b6](https://github.com/soundws/hls-web-audio/commit/a5f12b6c7597a6bc3922a81224284674f34674cf))
+* **stemplayer-js:** fix for loading and unloading when (re-)setting src for stem ([21d83bd](https://github.com/soundws/hls-web-audio/commit/21d83bd7a160caec0451cc59243b82650a2cb424))
+
+
+
+
+
 # [2.4.0](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.4.0-beta.0...@firstcoders/hls-web-audio@2.4.0) (2024-09-21)
 
 **Note:** Version bump only for package @firstcoders/hls-web-audio
