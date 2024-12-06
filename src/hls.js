@@ -21,6 +21,12 @@ import parseM3u8 from './lib/parseM3u8.js';
 
 class HLS {
   /**
+   * Internal pointer for optimising scheduling
+   * @var {Number}
+   */
+  #scheduleNotBefore;
+
+  /**
    * @param {Object} param - The params
    * @param {Object} param.controller - The controller
    * @param {Object} param.volume - The initial volume
@@ -238,15 +244,23 @@ class HLS {
     this.stack.disconnectAll();
 
     // then run a schedule pass in order to immediately schedule the newly required segments
-    this.runSchedulePass();
+    this.runSchedulePass(true);
   }
 
   /**
    * Handles a controller's "timeupdate" event
    */
-  async runSchedulePass() {
+  async runSchedulePass(force) {
+    const timeframe = this.controller.currentTimeframe;
+
+    if (force) this.#scheduleNotBefore = undefined;
+
+    if (timeframe.currentTime < this.#scheduleNotBefore) {
+      return;
+    }
+
     // schedule segments that are needed now
-    await this.scheduleAt(this.controller.currentTimeframe);
+    await this.scheduleAt(timeframe);
 
     // schedule segments that may be needed in the next loop
     // todo prevent buffering
@@ -276,6 +290,9 @@ class HLS {
       // connect it to the audio
       // @todo reverse api to controller.connect(segment) or this.connect(segment)
       await segment.connect({ ac: controller.ac, destination, start, offset, stop });
+
+      // keep a pointer so we know we dont need to run schedule again prior to a certain currentTime
+      this.#scheduleNotBefore = segment.end - segment.duration / 2;
 
       this.stack?.recalculateStartTimes();
     } catch (err) {
