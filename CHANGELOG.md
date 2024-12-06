@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0-beta.1](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.5.0-beta.0...@firstcoders/hls-web-audio@2.5.0-beta.1) (2024-12-06)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** notbeforeflag is reset when playDuration or offset changes ([ed7c923](https://github.com/soundws/hls-web-audio/commit/ed7c923acb36568097340d38b3a4c0a6a8933875))
+
+
+
+
+
 # [2.5.0-beta.0](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.4.1-beta.0...@firstcoders/hls-web-audio@2.5.0-beta.0) (2024-12-06)
 
 
