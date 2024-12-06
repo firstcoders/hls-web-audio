@@ -54,13 +54,9 @@ class HLS {
 
     // ensure when the duration changes (e.g. because of offset + play duration), we disconnect any scheduled nodes
     // this is because the parameters of those segments may have changed (such as stop time, loop etc)
-    this.controller.on('playDuration', () => {
-      this.stack.disconnectAll();
-    });
+    this.controller.on('playDuration', () => this.#reset());
 
-    this.controller.on('offset', () => {
-      this.stack.disconnectAll();
-    });
+    this.controller.on('offset', () => this.#reset());
 
     // create a gainnode for volume
     this.gainNode = this.controller.ac.createGain();
@@ -94,6 +90,11 @@ class HLS {
 
   get start() {
     return this.stack.start;
+  }
+
+  #reset() {
+    this.stack.disconnectAll();
+    this.#scheduleNotBefore = undefined;
   }
 
   destroy() {
