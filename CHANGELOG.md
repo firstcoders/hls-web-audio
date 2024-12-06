@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0-beta.0](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.4.1-beta.0...@firstcoders/hls-web-audio@2.5.0-beta.0) (2024-12-06)
+
+
+### Features
+
+* **hls-web-audio:** hls is smarter on when to run schedule ([7012552](https://github.com/soundws/hls-web-audio/commit/7012552c044ed1b0af5c9f81a628d8c44f9701ad))
+
+
+
+
+
 ## [2.4.1-beta.0](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.4.0...@firstcoders/hls-web-audio@2.4.1-beta.0) (2024-11-28)
 
 
