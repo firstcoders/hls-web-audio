@@ -373,7 +373,6 @@ class Controller extends Observer {
 
     // seek: suspend the ac before emitting the seek event: disconnecting audio nodes on a runnin ac can cause "cracks" and "pops".
     this.ac.suspend().then(() => {
-      this.fireEvent('seek', { t: this.currentTime, pct: this.pct, remaining: this.remaining });
       if (this.desiredState === 'resumed' && !this.isBuffering) this.ac.resume();
     });
   }
@@ -401,6 +400,7 @@ class Controller extends Observer {
    */
   fixAdjustedStart(t) {
     this.adjustedStart = this.ac.currentTime - t;
+    this.fireEvent('seek', { t: this.currentTime, pct: this.pct, remaining: this.remaining });
   }
 
   /**

@@ -236,10 +236,10 @@ class HLS {
    * @private
    */
   async onSeek() {
-    if (this.controller.ac.state === 'running') {
-      // eslint-disable-next-line no-console
-      console.debug('Disconnecting node when audiocontext is running may cause "ticks"');
-    }
+    // if (this.controller.ac.state === 'running') {
+    //   // eslint-disable-next-line no-console
+    //   console.debug('Disconnecting node when audiocontext is running may cause "ticks"');
+    // }
 
     // first disconnect everything
     this.stack.disconnectAll();
