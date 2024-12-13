@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0-beta.2](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.5.0-beta.1...@firstcoders/hls-web-audio@2.5.0-beta.2) (2024-12-13)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** seek event fired as result of setcurenttime ([53141ad](https://github.com/soundws/hls-web-audio/commit/53141adf9b842e9746e04de7b473dcf918a10901))
+
+
+
+
+
 # [2.5.0-beta.1](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.5.0-beta.0...@firstcoders/hls-web-audio@2.5.0-beta.1) (2024-12-06)
 
 
