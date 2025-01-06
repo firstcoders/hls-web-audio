@@ -160,7 +160,9 @@ class Controller extends Observer {
     // seek to 0 when starting playback for the first time
     if (typeof this.adjustedStart !== 'number') this.fixAdjustedStart(this.offset);
 
-    if (this.ac.state === 'suspended') await this.ac.resume();
+    if (this.ac.state === 'suspended' && this.canPlay && !this.isBuffering) {
+      await this.ac.resume();
+    }
 
     this.fireEvent('start');
   }
