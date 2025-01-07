@@ -158,11 +158,12 @@ class Controller extends Observer {
     if (typeof this.duration !== 'number') throw new Error('Cannot play before loading content');
     if (this.isBuffering) throw new Error('The player is buffering');
     // seek to 0 when starting playback for the first time
-    if (typeof this.adjustedStart !== 'number') this.fixAdjustedStart(this.offset);
 
     if (this.ac.state === 'suspended') {
       await this.ac.resume();
     }
+
+    if (typeof this.adjustedStart !== 'number') this.fixAdjustedStart(this.offset);
 
     this.fireEvent('start');
   }
@@ -373,8 +374,6 @@ class Controller extends Observer {
 
     this.fixAdjustedStart(seekTo);
 
-    this.fireEvent('seek', { t: this.currentTime, pct: this.pct, remaining: this.remaining });
-
     // seek: suspend the ac before emitting the seek event: disconnecting audio nodes on a runnin ac can cause "cracks" and "pops".
     this.ac.suspend().then(() => {
       if (this.desiredState === 'resumed' && !this.isBuffering) this.ac.resume();
@@ -404,6 +403,11 @@ class Controller extends Observer {
    */
   fixAdjustedStart(t) {
     this.adjustedStart = this.ac.currentTime - t;
+    this.fireEvent('seek', {
+      t: this.currentTime,
+      pct: this.pct,
+      remaining: this.remaining,
+    });
   }
 
   /**
