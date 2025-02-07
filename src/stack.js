@@ -90,6 +90,9 @@ export default class {
         return current;
       }
 
+      // do not schedule next unless current is ready
+      if (!current?.isReady) return undefined;
+
       // ensure the next is in the play window (<timeframe.end)
       if (next && next.start < timeframe.end && !next.$inTransit && !next.isReady) {
         return next;
@@ -199,9 +202,11 @@ export default class {
   recalculateStartTimes() {
     this.startPointer = this.initialStartTime;
 
-    this.elements.forEach((s) => {
+    this.elements.forEach((s, i) => {
+      const start = this.elements[i - 1]?.end || this.startPointer;
+
       // initialise start time of element
-      s.start = this.startPointer;
+      s.start = start;
 
       // increment start pointer
       this.startPointer += s.duration;

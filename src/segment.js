@@ -1,3 +1,5 @@
+import { fadeIn, fadeOut } from './lib/fade';
+
 /**
  * Copyright (C) 2019-2023 First Coders LTD
  *
@@ -103,10 +105,27 @@ class Segment {
     // update the expected duration (from m3u8 file) with the real duration from the decoded audio
     this.duration = this.#audioBuffer.duration;
 
+    // crossfade clips - some browsers find stitching even apparantly gapless samples tricky
+    const crossfadeGain = ac.createGain();
+    crossfadeGain.connect(destination);
+
+    const duration = (1 / ac.sampleRate) * 150;
+
+    fadeIn(crossfadeGain, { duration, time: start });
+    fadeOut(crossfadeGain, {
+      duration,
+      time: start + this.duration - duration,
+    });
+
     this.#sourceNode = ac.createBufferSource();
     this.#sourceNode.buffer = this.#audioBuffer;
-    this.#sourceNode.connect(destination);
-    this.#sourceNode.onended = (e) => setTimeout(() => this.disconnect(e), 0);
+    this.#sourceNode.connect(crossfadeGain);
+    this.#sourceNode.onended = (e) =>
+      setTimeout(() => {
+        this.disconnect(e);
+        crossfadeGain.disconnect();
+      }, 0);
+
     this.#sourceNode.start(start, offset);
     this.#sourceNode.stop(stop);
   }
