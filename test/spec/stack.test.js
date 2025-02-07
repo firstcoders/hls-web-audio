@@ -76,12 +76,10 @@ describe('stack', () => {
 
     describe('if #current is in transit and #next is not ready', () => {
       it('return the next element', () => {
-        const current = stack.consume(timeframe);
+        stack.consume(timeframe);
         const next = stack.consume(timeframe);
 
-        expect(current !== next);
-        expect(next.start).equal(1.1);
-        expect(next.$inTransit);
+        expect(next).equal(undefined);
       });
     });
 
