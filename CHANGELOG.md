@@ -3,221 +3,136 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.5.0-beta.2](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.5.0-beta.1...@firstcoders/hls-web-audio@2.5.0-beta.2) (2024-12-13)
-
+# [2.5.0-beta.3](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.5.0-beta.2...@firstcoders/hls-web-audio@2.5.0-beta.3) (2025-02-26)
 
 ### Bug Fixes
 
-* **hls-web-audio:** seek event fired as result of setcurenttime ([53141ad](https://github.com/soundws/hls-web-audio/commit/53141adf9b842e9746e04de7b473dcf918a10901))
+- **hls-web-audio:** add very short crossfade between clips ([5d4d8f9](https://github.com/soundws/hls-web-audio/commit/5d4d8f90d9022fd5bd77a4bbe5230e4b861d68ef))
+- **hls-web-audio:** again emit seek every time adjustedStart is set ([2db01cb](https://github.com/soundws/hls-web-audio/commit/2db01cb517d6d3f52817684748a555da14d08d88))
+- **hls-web-audio:** fixadjusted start firing seek event caused issues ([fa0fe3b](https://github.com/soundws/hls-web-audio/commit/fa0fe3bbaa439be4f0360d3bd79cdc748f4669ec))
+- **hls-web-audio:** more precise scheduling ([c3915ab](https://github.com/soundws/hls-web-audio/commit/c3915abdd3085e4d42d84ee9d49a50a3cbe4fb68))
+- **hls-web-audio:** play no longer causes audiocontext to start prematurely ([8bfa433](https://github.com/soundws/hls-web-audio/commit/8bfa433166352b3a8d7f94b1742315dc7f31f39f))
 
+### Reverts
 
+- **hls-web-audio:** client side cross-fade ([3159d13](https://github.com/soundws/hls-web-audio/commit/3159d13c129698f2688d12b504402a4c0836d367))
 
+# [2.5.0-beta.2](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.5.0-beta.1...@firstcoders/hls-web-audio@2.5.0-beta.2) (2024-12-13)
 
+### Bug Fixes
+
+- **hls-web-audio:** seek event fired as result of setcurenttime ([53141ad](https://github.com/soundws/hls-web-audio/commit/53141adf9b842e9746e04de7b473dcf918a10901))
 
 # [2.5.0-beta.1](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.5.0-beta.0...@firstcoders/hls-web-audio@2.5.0-beta.1) (2024-12-06)
 
-
 ### Bug Fixes
 
-* **hls-web-audio:** notbeforeflag is reset when playDuration or offset changes ([ed7c923](https://github.com/soundws/hls-web-audio/commit/ed7c923acb36568097340d38b3a4c0a6a8933875))
-
-
-
-
+- **hls-web-audio:** notbeforeflag is reset when playDuration or offset changes ([ed7c923](https://github.com/soundws/hls-web-audio/commit/ed7c923acb36568097340d38b3a4c0a6a8933875))
 
 # [2.5.0-beta.0](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.4.1-beta.0...@firstcoders/hls-web-audio@2.5.0-beta.0) (2024-12-06)
 
-
 ### Features
 
-* **hls-web-audio:** hls is smarter on when to run schedule ([7012552](https://github.com/soundws/hls-web-audio/commit/7012552c044ed1b0af5c9f81a628d8c44f9701ad))
-
-
-
-
+- **hls-web-audio:** hls is smarter on when to run schedule ([7012552](https://github.com/soundws/hls-web-audio/commit/7012552c044ed1b0af5c9f81a628d8c44f9701ad))
 
 ## [2.4.1-beta.0](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.4.0...@firstcoders/hls-web-audio@2.4.1-beta.0) (2024-11-28)
 
-
 ### Bug Fixes
 
-* **hls-web-audio:** fix for hls.load resolving returned promise too soon ([a5f12b6](https://github.com/soundws/hls-web-audio/commit/a5f12b6c7597a6bc3922a81224284674f34674cf))
-* **stemplayer-js:** fix for loading and unloading when (re-)setting src for stem ([21d83bd](https://github.com/soundws/hls-web-audio/commit/21d83bd7a160caec0451cc59243b82650a2cb424))
-
-
-
-
+- **hls-web-audio:** fix for hls.load resolving returned promise too soon ([a5f12b6](https://github.com/soundws/hls-web-audio/commit/a5f12b6c7597a6bc3922a81224284674f34674cf))
+- **stemplayer-js:** fix for loading and unloading when (re-)setting src for stem ([21d83bd](https://github.com/soundws/hls-web-audio/commit/21d83bd7a160caec0451cc59243b82650a2cb424))
 
 # [2.4.0](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.4.0-beta.0...@firstcoders/hls-web-audio@2.4.0) (2024-09-21)
 
 **Note:** Version bump only for package @firstcoders/hls-web-audio
 
-
-
-
-
 # 2.4.0-beta.0 (2024-09-18)
-
 
 ### Bug Fixes
 
-* **hls-web-audio:** ensure seeking takes into account offset and playduration ([802249d](https://github.com/soundws/hls-web-audio/commit/802249d8b70a57b6d7b33331d3f15ef29d199144))
-* **hls-web-audio:** fix for setting unsetting duration override throwing error ([b748359](https://github.com/soundws/hls-web-audio/commit/b748359976d55e6e73799ec5585a916ceaf55969))
-
+- **hls-web-audio:** ensure seeking takes into account offset and playduration ([802249d](https://github.com/soundws/hls-web-audio/commit/802249d8b70a57b6d7b33331d3f15ef29d199144))
+- **hls-web-audio:** fix for setting unsetting duration override throwing error ([b748359](https://github.com/soundws/hls-web-audio/commit/b748359976d55e6e73799ec5585a916ceaf55969))
 
 ### Features
 
-* **hls-web-audio:** added offset and duration and rewrote loop functionality ([a4c9b49](https://github.com/soundws/hls-web-audio/commit/a4c9b49e9512d0599c6dd27238eb0b5498bf8b02))
-
-
-
-
+- **hls-web-audio:** added offset and duration and rewrote loop functionality ([a4c9b49](https://github.com/soundws/hls-web-audio/commit/a4c9b49e9512d0599c6dd27238eb0b5498bf8b02))
 
 ## [2.3.1-beta.1](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.3.1-beta.0...@soundws/hls-web-audio@2.3.1-beta.1) (2024-06-06)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
 
-
-
-
-
 ## [2.3.1-beta.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.3.0...@soundws/hls-web-audio@2.3.1-beta.0) (2024-06-04)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
-
-
-
-
 
 # [2.3.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.3.0-beta.4...@soundws/hls-web-audio@2.3.0) (2024-06-01)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
 
-
-
-
-
 # [2.3.0-beta.4](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.3.0-beta.3...@soundws/hls-web-audio@2.3.0-beta.4) (2024-06-01)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
-
-
-
-
 
 # [2.3.0-beta.3](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.3.0-beta.2...@soundws/hls-web-audio@2.3.0-beta.3) (2024-05-23)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
 
-
-
-
-
 # [2.3.0-beta.2](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.3.0-beta.1...@soundws/hls-web-audio@2.3.0-beta.2) (2024-05-23)
-
 
 ### Bug Fixes
 
-* **hls-web-audio:** fix for setting unsetting duration override throwing error ([b748359](https://github.com/soundws/hls-web-audio/commit/b748359976d55e6e73799ec5585a916ceaf55969))
-
-
-
-
+- **hls-web-audio:** fix for setting unsetting duration override throwing error ([b748359](https://github.com/soundws/hls-web-audio/commit/b748359976d55e6e73799ec5585a916ceaf55969))
 
 # [2.3.0-beta.1](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.3.0-beta.0...@soundws/hls-web-audio@2.3.0-beta.1) (2024-05-06)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
 
-
-
-
-
 # [2.3.0-beta.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.2.1...@soundws/hls-web-audio@2.3.0-beta.0) (2024-05-03)
-
 
 ### Bug Fixes
 
-* **hls-web-audio:** ensure seeking takes into account offset and playduration ([802249d](https://github.com/soundws/hls-web-audio/commit/802249d8b70a57b6d7b33331d3f15ef29d199144))
-
+- **hls-web-audio:** ensure seeking takes into account offset and playduration ([802249d](https://github.com/soundws/hls-web-audio/commit/802249d8b70a57b6d7b33331d3f15ef29d199144))
 
 ### Features
 
-* **hls-web-audio:** added offset and duration and rewrote loop functionality ([a4c9b49](https://github.com/soundws/hls-web-audio/commit/a4c9b49e9512d0599c6dd27238eb0b5498bf8b02))
-
-
-
-
+- **hls-web-audio:** added offset and duration and rewrote loop functionality ([a4c9b49](https://github.com/soundws/hls-web-audio/commit/a4c9b49e9512d0599c6dd27238eb0b5498bf8b02))
 
 ## [2.2.1](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.2.1-beta.4...@soundws/hls-web-audio@2.2.1) (2024-04-09)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
 
-
-
-
-
 ## 2.2.1-beta.4 (2024-04-09)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
-
-
-
-
 
 ## [2.2.1-beta.3](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.2.1-beta.2...@soundws/hls-web-audio@2.2.1-beta.3) (2024-03-28)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
 
-
-
-
-
 ## [2.2.1-beta.2](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.2.1-beta.1...@soundws/hls-web-audio@2.2.1-beta.2) (2024-03-07)
-
 
 ### Bug Fixes
 
-* **hls-web-audio:** no longer end when hls are removed in case new ones are added soon after ([e28d745](https://github.com/soundws/hls-web-audio/commit/e28d7457a78d57aed1c815fe8f0507a4812c468c))
-
-
-
-
+- **hls-web-audio:** no longer end when hls are removed in case new ones are added soon after ([e28d745](https://github.com/soundws/hls-web-audio/commit/e28d7457a78d57aed1c815fe8f0507a4812c468c))
 
 ## [2.2.1-beta.1](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.2.1-beta.0...@soundws/hls-web-audio@2.2.1-beta.1) (2024-03-06)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
 
-
-
-
-
 ## [2.2.1-beta.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.2.0...@soundws/hls-web-audio@2.2.1-beta.0) (2024-03-06)
-
 
 ### Bug Fixes
 
-* **hls-web-audio:** do not seek if no duration is set ([fc7f835](https://github.com/soundws/hls-web-audio/commit/fc7f835d406e232e69166602d8968823502679c9))
-* **hls-web-audio:** emit duration when hls is unobserved ([3155110](https://github.com/soundws/hls-web-audio/commit/31551107c34b4bdd699e0fbf50971b11d3079681))
-
-
-
-
+- **hls-web-audio:** do not seek if no duration is set ([fc7f835](https://github.com/soundws/hls-web-audio/commit/fc7f835d406e232e69166602d8968823502679c9))
+- **hls-web-audio:** emit duration when hls is unobserved ([3155110](https://github.com/soundws/hls-web-audio/commit/31551107c34b4bdd699e0fbf50971b11d3079681))
 
 # [2.2.0](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.2.0-beta.2...@soundws/hls-web-audio@2.2.0) (2024-02-29)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
 
-
-
-
-
 # [2.2.0-beta.2](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.2.0-beta.1...@soundws/hls-web-audio@2.2.0-beta.2) (2024-02-24)
 
 **Note:** Version bump only for package @soundws/hls-web-audio
-
-
-
-
 
 # [2.2.0-beta.1](https://github.com/soundws/hls-web-audio/compare/@soundws/hls-web-audio@2.2.0-beta.0...@soundws/hls-web-audio@2.2.0-beta.1) (2024-02-23)
 
