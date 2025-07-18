@@ -38,9 +38,9 @@ class HLS {
 
     // ensure when the duration changes (e.g. because of offset + play duration), we disconnect any scheduled nodes
     // this is because the parameters of those segments may have changed (such as stop time, loop etc)
-    this.controller.on('playDuration', () => this.#reset());
+    this.ePlayDuration = this.controller.on('playDuration', () => this.#reset());
 
-    this.controller.on('offset', () => this.#reset());
+    this.eOffset = this.controller.on('offset', () => this.#reset());
 
     // create a gainnode for volume
     this.gainNode = this.controller.ac.createGain();
@@ -91,6 +91,8 @@ class HLS {
 
     // remove event listeners
     this.eTimeUpdate.un();
+    this.eOffset.un();
+    this.ePlayDuration.un();
     this.eSeek.un();
 
     // destroy the stack
