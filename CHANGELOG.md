@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0-beta.4](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.5.0-beta.3...@firstcoders/hls-web-audio@2.5.0-beta.4) (2025-07-18)
+
+### Bug Fixes
+
+- **hls-web-audio:** all controller events unset when hls is destroyed ([d7c2668](https://github.com/soundws/hls-web-audio/commit/d7c2668283e1c6ca2ebe5642fccbedc385414883))
+
 # [2.5.0-beta.3](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.5.0-beta.2...@firstcoders/hls-web-audio@2.5.0-beta.3) (2025-02-26)
 
 ### Bug Fixes
