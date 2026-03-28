@@ -6,8 +6,15 @@ export default class PlaybackTimeline {
 
   constructor(controller) {
     this.controller = controller; // Reference back to dispatcher context
-    this.adjustedStart = undefined;
     this.timeframe = new Timeframe();
+  }
+
+  get adjustedStart() {
+    return this.timeframe.adjustedStart;
+  }
+
+  set adjustedStart(v) {
+    this.timeframe.adjustedStart = v;
   }
 
   get audioDuration() {
@@ -60,12 +67,6 @@ export default class PlaybackTimeline {
   }
 
   get currentTime() {
-    if (this.rawCurrentTime < this.offset) {
-      this.fixAdjustedStart(this.offset);
-    }
-    if (this.controller.loop && this.rawCurrentTime >= this.offset + this.playDuration) {
-      this.fixAdjustedStart(this.offset);
-    }
     return this.rawCurrentTime;
   }
 
@@ -98,11 +99,12 @@ export default class PlaybackTimeline {
   }
 
   fixAdjustedStart(t) {
-    this.adjustedStart = this.controller.ac.currentTime - t;
+    this.timeframe.setAnchor(this.controller.ac.currentTime, t);
+
     this.controller.fireEvent('seek', {
-      t: this.rawCurrentTime,
-      pct: this.rawCurrentTime / this.audioDuration,
-      remaining: this.audioDuration - this.rawCurrentTime,
+      t,
+      pct: t / this.audioDuration,
+      remaining: this.audioDuration - t,
     });
   }
 

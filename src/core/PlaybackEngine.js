@@ -42,10 +42,25 @@ export default class PlaybackEngine {
     this.tEngineNext = null;
 
     const t = this.controller.currentTime;
+    const endBound = this.controller.offset + this.controller.playDuration;
 
-    if (t > this.controller.offset + this.controller.playDuration) {
-      this.controller.end();
-      return;
+    // Boundary Enforcement:
+    // This replaces the old getter-mutations in PlaybackTimeline.currentTime
+    if (t !== undefined) {
+      if (t < this.controller.offset) {
+        this.controller.timeline.fixAdjustedStart(this.controller.offset);
+        this.tEngineNext = setTimeout(() => this._engineTick(), 10);
+        return;
+      }
+      if (t >= endBound) {
+        if (this.controller.loop) {
+          this.controller.timeline.fixAdjustedStart(this.controller.offset);
+          this.tEngineNext = setTimeout(() => this._engineTick(), 10);
+          return;
+        }
+        this.controller.end();
+        return;
+      }
     }
 
     const needsBuffering = this.controller.tracks.some((track) => !track.shouldAndCanPlay);
