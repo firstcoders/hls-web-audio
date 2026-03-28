@@ -117,15 +117,20 @@ describe('stack', () => {
       expect(stack.head.$inTransit).equal(false);
     });
 
-    it('preserves loading elements if they are close to the target timeframe', () => {
+    it('preserves the buffer fetch but disconnects and acks elements close to the target timeframe', () => {
       stack.head.start = 10;
       stack.head.$inTransit = true;
 
       const timeframe = { currentTime: 12 }; // within 15 seconds
       stack.disconnectAll(timeframe);
 
+      // Network fetch NOT cancelled so an already in-flight load is reused on re-schedule.
       expect(stack.head.cancel.called).equal(false);
-      expect(stack.head.$inTransit).equal(true); // did not ack
+      // disconnect() IS called to abort any in-flight connect() via the connectionId guard,
+      // ensuring the scheduler reconnects with fresh timeframe params.
+      expect(stack.head.disconnect.calledOnce).equal(true);
+      // $inTransit IS cleared so the scheduler can immediately re-pick the segment.
+      expect(stack.head.$inTransit).equal(false);
     });
 
     it('cancels loading elements if they are far from the target timeframe', () => {
