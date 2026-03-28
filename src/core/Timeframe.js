@@ -2,12 +2,17 @@
  * @class Timeframe
  */
 export default class Timeframe {
-  constructor({ adjustedStart, adjustedEnd, currentTime, playDuration, offset }) {
+  constructor({ adjustedStart, adjustedEnd, currentTime, playDuration, offset } = {}) {
+    this.update({ adjustedStart, adjustedEnd, currentTime, playDuration, offset });
+  }
+
+  update({ adjustedStart, adjustedEnd, currentTime, playDuration, offset }) {
     this.adjustedStart = adjustedStart;
     this.adjustedEnd = adjustedEnd;
     this.currentTime = currentTime;
     this.playDuration = playDuration;
     this.offset = offset;
+    return this;
   }
 
   /**

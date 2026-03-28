@@ -1,7 +1,7 @@
 import { expect } from '@bundled-es-modules/chai';
 import sinon from 'sinon';
-import Controller from '../../src/controller';
-import Segment from '../../src/segment';
+import Controller from '../../../src/core/AudioController.js';
+import Segment from '../../../src/io/AudioSegment.js';
 
 describe('segment', () => {
   let segment;

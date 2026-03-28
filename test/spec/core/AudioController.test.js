@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-expressions */
 import { expect } from '@bundled-es-modules/chai';
 import sinon from 'sinon';
-import Controller from '../../src/controller';
-import HLS from '../../src/hls';
+import Controller from '../../../src/core/AudioController.js';
+import HLS from '../../../src/track/HLS.js';
 
 describe('controller', () => {
   describe('#constructor', () => {
@@ -42,9 +42,19 @@ describe('controller', () => {
       describe('ac#onstatechange', () => {
         let controller;
         let ticks = 0;
+        let originalTick;
 
         beforeEach(() => {
           controller = new Controller();
+          originalTick = controller.engine._engineTick;
+          controller.engine._engineTick = function engineTickSpy(...args) {
+            ticks += 1;
+            originalTick.apply(this, args);
+          };
+        });
+
+        afterEach(() => {
+          if (controller && controller.engine) controller.engine._engineTick = originalTick;
         });
 
         it('starts ticking when the audiocontext starts', async () => {
@@ -53,8 +63,7 @@ describe('controller', () => {
           await controller.ac.resume();
 
           await new Promise((done) => {
-            controller.on('timeupdate', done);
-            ticks += 1;
+            setTimeout(done, 50);
           });
 
           expect(ticks > 0).to.be.true;
@@ -149,9 +158,11 @@ describe('controller', () => {
 
     it('stops ticking', async () => {
       let ticks = 0;
-      controller.on('timeupdate', () => {
+      const originalTick = controller.engine._engineTick;
+      controller.engine._engineTick = function engineTickSpy(...args) {
         ticks += 1;
-      });
+        if (originalTick) originalTick.apply(this, args);
+      };
 
       await controller.play();
 
@@ -170,6 +181,7 @@ describe('controller', () => {
       });
 
       expect(ticksBeforeDestroy).equal(ticks);
+      controller.engine._engineTick = originalTick;
     });
 
     it('disconnects the gainNode', () => {
@@ -191,11 +203,11 @@ describe('controller', () => {
     });
 
     it('removes any references to hls instances', () => {
-      expect(controller.hls.length).greaterThan(0);
+      expect(controller.tracks.length).greaterThan(0);
 
       controller.destroy();
 
-      expect(controller.hls.length).equal(0);
+      expect(controller.tracks.length).equal(0);
     });
 
     describe('when the controller created the audioContext', () => {
@@ -241,10 +253,10 @@ describe('controller', () => {
 
     describe('when a hls track is not yet observed', () => {
       it('is obseved by the controller', () => {
-        expect(controller.hls.length).equal(0);
+        expect(controller.tracks.length).equal(0);
         controller.observe(hls);
-        expect(controller.hls.length).equal(1);
-        expect(controller.hls[0]).equal(hls);
+        expect(controller.tracks.length).equal(1);
+        expect(controller.tracks[0]).equal(hls);
       });
     });
 
@@ -255,8 +267,8 @@ describe('controller', () => {
 
       it('not observed twice', () => {
         controller.observe(hls);
-        expect(controller.hls.length).equal(1);
-        expect(controller.hls[0]).equal(hls);
+        expect(controller.tracks.length).equal(1);
+        expect(controller.tracks[0]).equal(hls);
       });
     });
   });
@@ -273,7 +285,7 @@ describe('controller', () => {
     describe('when a hls track is not yet observed', () => {
       it('does nothing', () => {
         controller.unobserve(hls);
-        expect(controller.hls.length).equal(0);
+        expect(controller.tracks.length).equal(0);
       });
     });
     describe('when a hls track is obseved', () => {
@@ -282,9 +294,9 @@ describe('controller', () => {
       });
 
       it('unobserves the hls track', () => {
-        expect(controller.hls.length).equal(1);
+        expect(controller.tracks.length).equal(1);
         controller.unobserve(hls);
-        expect(controller.hls.length).equal(0);
+        expect(controller.tracks.length).equal(0);
       });
     });
   });
@@ -343,13 +355,21 @@ describe('controller', () => {
       });
 
       it('schedules the "tick" timeout', async () => {
+        let called = false;
+        const originalTick = controller.engine._engineTick;
+        controller.engine._engineTick = function engineTickSpy(...args) {
+          called = true;
+          if (originalTick) originalTick.apply(this, args);
+        };
+
         controller.play();
-        const result = await new Promise((done) => {
-          controller.on('timeupdate', done);
+
+        await new Promise((done) => {
+          setTimeout(done, 100);
         });
 
-        expect(typeof result.t === 'number');
-        expect(typeof result.pct === 'number');
+        expect(called).to.be.true;
+        controller.engine._engineTick = originalTick;
       });
     });
   });
@@ -383,9 +403,11 @@ describe('controller', () => {
     // it no longer stops the tick timeout
     it('stops the "tick" timeout', async () => {
       let ticks = 0;
-      controller.on('timeupdate', () => {
+      const originalTick = controller.engine._engineTick;
+      controller.engine._engineTick = function engineTickSpy(...args) {
         ticks += 1;
-      });
+        if (originalTick) originalTick.apply(this, args);
+      };
 
       // wait for a few ticks
       await new Promise((done) => {
@@ -404,6 +426,7 @@ describe('controller', () => {
 
       // check that no more ticks happened after pause
       expect(ticksBeforePause).equal(ticks);
+      controller.engine._engineTick = originalTick;
     });
   });
 

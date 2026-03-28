@@ -17,8 +17,8 @@
   ],
   "exports": {
     ".": "./index.js",
-    "./controller.js": "./src/controller.js",
-    "./hls.js": "./src/hls.js"
+    "./core/AudioController.js": "./src/core/AudioController.js",
+    "./track/HLS.js": "./src/track/HLS.js"
   },
   "repository": {
     "type": "git",

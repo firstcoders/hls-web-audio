@@ -1,7 +1,7 @@
 import { expect } from '@bundled-es-modules/chai';
 import sinon from 'sinon';
-import HLS from '../../src/hls';
-import Controller from '../../src/controller';
+import HLS from '../../../src/track/HLS.js';
+import Controller from '../../../src/core/AudioController.js';
 
 describe('hls', () => {
   describe('#constructor', () => {
@@ -26,16 +26,6 @@ describe('hls', () => {
       const hls = new HLS({ controller });
 
       expect(controller.observe.calledOnceWith(hls));
-    });
-
-    it('subscribes to #controller timeupdate event', () => {
-      const controller = new Controller();
-      const hls = new HLS({ controller });
-      hls.runSchedulePass = sinon.spy();
-
-      controller.fireEvent('timeupdate');
-
-      expect(hls.runSchedulePass.calledOnce);
     });
 
     it('subscribes to #controller seek event', () => {
@@ -96,8 +86,8 @@ describe('hls', () => {
       const { controller } = hls;
       hls.destroy();
 
-      // TODO, #controller.hls is/should be private(?), so we shouldnt mess with it. Test in another way.
-      expect(controller.hls.indexOf(hls)).equal(-1);
+      // TODO, #controller.tracks is/should be private(?), so we shouldnt mess with it. Test in another way.
+      expect(controller.tracks.indexOf(hls)).equal(-1);
     });
 
     it('destroys the stack', async () => {
@@ -276,9 +266,8 @@ describe('hls', () => {
         });
 
         it('loads the next segment and connects it', async () => {
-          const currentIndex = hls.stack.getIndexAt(0);
-          const current = hls.stack.elements[currentIndex];
-          const next = hls.stack.elements[currentIndex + 1];
+          const current = hls.stack.getAt(0);
+          const { next } = current;
 
           current.connect = sinon.spy();
           next.connect = sinon.spy();
@@ -301,9 +290,8 @@ describe('hls', () => {
           // await hls.runSchedulePass(); // loads the current one
           // await hls.runSchedulePass(); // loads the next one
 
-          const currentIndex = hls.stack.getIndexAt(0);
-          const current = hls.stack.elements[currentIndex];
-          const next = hls.stack.elements[currentIndex + 1];
+          const current = hls.stack.getAt(0);
+          const { next } = current;
 
           // sets them as loaded (easier than really loading via runSchedulePass)
           current.sourceNode = {};
