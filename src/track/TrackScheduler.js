@@ -59,8 +59,9 @@ export default class TrackScheduler {
   }
 
   #queueNextPass(timeframe) {
-    // Guard against being called after the track has been destroyed.
-    if (!this.track.controller) return;
+    // Guard against being called after the track has been destroyed (controller or ac may
+    // be null after destroy()).
+    if (!this.track.controller?.ac) return;
 
     // If nothing is scheduled yet, we still need a recovery heartbeat while the audio
     // context is not running (e.g. suspended during buffering after an aborted scheduleAt).
@@ -68,7 +69,7 @@ export default class TrackScheduler {
     if (this.#scheduleNotBefore === undefined) {
       if (this.track.controller.ac.state !== 'running') {
         this.#timeoutId = setTimeout(() => {
-          if (!this.track.controller) return;
+          if (!this.track.controller?.ac) return;
           this.runSchedulePass(this.track.controller.currentTimeframe, true);
         }, 500);
       }
@@ -94,6 +95,7 @@ export default class TrackScheduler {
 
     this.#timeoutId = setTimeout(() => {
       // Re-read current timeframe to get actual current time, rather than the cached one
+      if (!this.track.controller?.ac) return;
       this.runSchedulePass(this.track.controller.currentTimeframe);
     }, waitMs);
   }

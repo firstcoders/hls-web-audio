@@ -80,15 +80,13 @@ export default class Stack {
         }
       }
 
-      if (current.isReady && current.disconnect) {
+      // Disconnect if connected to audio graph, OR if a near in-transit segment needs its
+      // stale in-flight connect() aborted (while preserving the underlying network fetch).
+      if ((current.isReady || preserveLoad) && current.disconnect) {
         current.disconnect();
+      } else if (current.cancel) {
+        current.cancel();
       }
-
-      if (preserveLoad) {
-        // Abort the in-flight connect() (so stale timeframe params are discarded) by resetting
-        // the connection guard, but leave the buffer fetch running.
-        if (current.disconnect) current.disconnect();
-      } else if (current.cancel) current.cancel();
 
       // Always ack so $inTransit is cleared — the scheduler will re-pick this segment up.
       this.ack(current);
