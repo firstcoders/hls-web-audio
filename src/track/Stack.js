@@ -68,15 +68,13 @@ export default class Stack {
   disconnectAll(timeframe = null) {
     let current = this.head;
     while (current) {
-      let preserveLoad = false;
+      let cancelLoad = true;
 
-      // When seeking, don't abort the network fetch for segments already loading near the new
-      // timeframe — but we still reset $inTransit and abort any in-flight connect() call so
-      // the scheduler can re-schedule them with the fresh timeframe params.
+      // When seeking, don't abort downloads that are near the new timeframe.
       if (timeframe && current.$inTransit && current.start !== undefined) {
         const startDist = Math.abs(current.start - timeframe.currentTime);
         if (startDist <= 15) {
-          preserveLoad = true;
+          cancelLoad = false;
         }
       }
 
@@ -84,14 +82,10 @@ export default class Stack {
         current.disconnect();
       }
 
-      if (preserveLoad) {
-        // Abort the in-flight connect() (so stale timeframe params are discarded) by resetting
-        // the connection guard, but leave the buffer fetch running.
-        if (current.disconnect) current.disconnect();
-      } else if (current.cancel) current.cancel();
-
-      // Always ack so $inTransit is cleared — the scheduler will re-pick this segment up.
-      this.ack(current);
+      if (cancelLoad) {
+        if (current.cancel) current.cancel();
+        this.ack(current);
+      }
 
       current = current.next;
     }

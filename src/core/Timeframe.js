@@ -7,20 +7,12 @@ export default class Timeframe {
   }
 
   update({ adjustedStart, adjustedEnd, currentTime, playDuration, offset }) {
-    if (adjustedStart !== undefined) this.adjustedStart = adjustedStart;
+    this.adjustedStart = adjustedStart;
     this.adjustedEnd = adjustedEnd;
     this.currentTime = currentTime;
     this.playDuration = playDuration;
     this.offset = offset;
     return this;
-  }
-
-  /**
-   * Recalculates the internal adjustedStart base time using a given context time and target track time
-   */
-  setAnchor(contextTime, trackTime) {
-    this.adjustedStart = contextTime - trackTime;
-    return this.adjustedStart;
   }
 
   /**

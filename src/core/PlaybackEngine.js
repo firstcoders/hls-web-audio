@@ -42,47 +42,16 @@ export default class PlaybackEngine {
     this.tEngineNext = null;
 
     const t = this.controller.currentTime;
-    const endBound = this.controller.offset + this.controller.playDuration;
 
-    // Determine if we need to buffer because the current playback segments have dried up
-    const needsBuffering = this.controller.tracks.some((track) => !track.shouldAndCanPlay);
-
-    // Boundary Enforcement:
-    // This replaces the old getter-mutations in PlaybackTimeline.currentTime
-    if (t !== undefined) {
-      if (t < this.controller.offset) {
-        this.controller.timeline.fixAdjustedStart(this.controller.offset);
-        this.tEngineNext = setTimeout(() => this._engineTick(), 10);
-        return;
-      }
-
-      // If we crossed the boundary OR if we are very close to it and the audio ran out
-      // (due to e.g. floating point precision ending a segment early), we just wrap/end immediately to avoid deadlocking.
-      const isEffectivelyAtEnd = t >= endBound || (endBound - t < 0.15 && needsBuffering);
-
-      if (isEffectivelyAtEnd) {
-        if (this.controller.loop) {
-          this.controller.timeline.fixAdjustedStart(this.controller.offset);
-          this.tEngineNext = setTimeout(() => this._engineTick(), 10);
-          return;
-        }
-        this.controller.end();
-        return;
-      }
+    if (t > this.controller.offset + this.controller.playDuration) {
+      this.controller.end();
+      return;
     }
+
+    const needsBuffering = this.controller.tracks.some((track) => !track.shouldAndCanPlay);
 
     if (needsBuffering && !this.isBuffering) {
       this.bufferingStart();
-    }
-
-    if (needsBuffering) {
-      // On every buffering poll tick, ensure the scheduler is actively trying to load the
-      // missing segment. The $inTransit guard inside the scheduler prevents double-scheduling;
-      // this only makes a real difference when the scheduler has gone idle (e.g. a previous
-      // scheduleAt was aborted mid-flight and left no retry timeout behind).
-      this.controller.tracks.forEach((track) => {
-        if (typeof track.runSchedulePass === 'function') track.runSchedulePass(true);
-      });
     } else if (!needsBuffering && this.isBuffering) {
       this.bufferingEnd();
     }
