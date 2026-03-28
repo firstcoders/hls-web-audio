@@ -59,7 +59,21 @@ export default class TrackScheduler {
   }
 
   #queueNextPass(timeframe) {
-    if (this.#scheduleNotBefore === undefined) return;
+    // Guard against being called after the track has been destroyed.
+    if (!this.track.controller) return;
+
+    // If nothing is scheduled yet, we still need a recovery heartbeat while the audio
+    // context is not running (e.g. suspended during buffering after an aborted scheduleAt).
+    // Without this, the scheduler goes completely idle and nothing ever re-triggers loading.
+    if (this.#scheduleNotBefore === undefined) {
+      if (this.track.controller.ac.state !== 'running') {
+        this.#timeoutId = setTimeout(() => {
+          if (!this.track.controller) return;
+          this.runSchedulePass(this.track.controller.currentTimeframe, true);
+        }, 500);
+      }
+      return;
+    }
 
     // We want to run slightly before the scheduled boundary to give networking a headstart,
     // though the lookahead loop handles 10 seconds ahead anyway.
@@ -130,13 +144,7 @@ export default class TrackScheduler {
     while (segment && accumulatedLookahead < LOOKAHEAD_DURATION_SECONDS) {
       // If we crossed the timeframe boundary, wrap around or stop
       if (segment.start >= timeframe.end) {
-        if (this.track.controller.loop) {
-          // Logically loop around to the timeframe start
-          segment = this.stack.getAt(timeframe.offset);
-          if (!segment) break; // safety fallback
-        } else {
-          break; // Stop looking once outside of the buffering window
-        }
+        break; // Stop looking once outside of the buffering window
       }
 
       if (!segment.$inTransit && !segment.isReady && !segments.includes(segment)) {
