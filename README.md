@@ -110,22 +110,22 @@ Why this matters:
 
 ## Scheduling and Buffering Model
 
-`TrackScheduler` runs a lookahead pass and sets a wake-up boundary
-(`scheduleNotBefore`) so it does not spin continuously.
+All scheduling computation happens at precomputed, event-driven moments — not on
+a fixed polling interval. `TrackScheduler` runs a lookahead pass, connects
+upcoming segments into the Web Audio graph, then sleeps until a calculated
+boundary is reached.
 
-Key behavior:
+`PlaybackEngine` monitors playhead readiness and drives buffering transitions;
+it does not render frames or tick at a fixed rate.
 
-- Marks candidates as `$inTransit` up front to avoid duplicate work from
-  overlapping passes.
-- Uses timeline-aware `start` and `offset` calculations before connecting.
-- Evicts old caches near the edges of the active window.
-- Supports looping windows without physically rewiring the linked list.
+See [docs/scheduling.md](docs/scheduling.md) for a detailed description of:
 
-`PlaybackEngine` is responsible for playback state, not rendering ticks:
-
-- If any track is not ready at the playhead, buffering starts (`pause-start`).
-- When all tracks are ready again, buffering ends (`pause-end`).
-- End-of-play-window detection triggers `end`.
+- the time anchor (`adjustedStart`) and why `currentTime` is a pure read
+- when and how often `runSchedulePass` fires
+- the `#scheduleNotBefore` lookahead boundary and its self-timer
+- the recovery heartbeat for aborted schedule paths
+- seek / region-change coordination with `disconnectAll`
+- the full buffering lifecycle
 
 ## Events
 
