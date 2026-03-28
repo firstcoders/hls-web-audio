@@ -47,7 +47,7 @@
     "eslint-config-prettier": "^9.1.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.4",
-    "lint-staged": "^15.5.2",
+    "lint-staged": "^16.4.0",
     "mocha": "^10.8.2",
     "prettier": "^3.7.4",
     "sinon": "^19.0.5"
@@ -104,5 +104,11 @@
     "test:watch": "npx web-test-runner --watch",
     "lint": "eslint --ext .js . --ignore-path .gitignore && prettier \"**/*.js\" --check --ignore-path .gitignore",
     "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ]
   }
 }
