@@ -68,33 +68,24 @@ export default class Stack {
   disconnectAll(timeframe = null) {
     let current = this.head;
     while (current) {
-      let preserveLoad = false;
+      let cancelLoad = true;
 
-      // When seeking, don't abort the network fetch for segments already downloading near
-      // the new timeframe — but we still reset $inTransit and abort any in-flight connect()
-      // so the scheduler can re-schedule with fresh timeframe params.
+      // When seeking, don't abort downloads that are near the new timeframe.
       if (timeframe && current.$inTransit && current.start !== undefined) {
         const startDist = Math.abs(current.start - timeframe.currentTime);
         if (startDist <= 15) {
-          preserveLoad = true;
+          cancelLoad = false;
         }
       }
 
-      // Merge the isReady and preserveLoad disconnect cases into a single branch so
-      // disconnect() is called at most once per segment, regardless of its state.
-      // For preserveLoad segments this also aborts any in-flight connect() call via the
-      // connectionId guard in AudioSegment, so stale timeframe params are discarded and
-      // the scheduler can reconnect with fresh ones.
-      if ((current.isReady || preserveLoad) && current.disconnect) {
+      if (current.isReady && current.disconnect) {
         current.disconnect();
       }
 
-      if (!preserveLoad) {
+      if (cancelLoad) {
         if (current.cancel) current.cancel();
+        this.ack(current);
       }
-
-      // Always clear $inTransit so the scheduler can immediately re-pick this segment.
-      this.ack(current);
 
       current = current.next;
     }
