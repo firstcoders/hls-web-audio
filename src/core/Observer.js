@@ -17,8 +17,6 @@
  *   this software without specific prior written permission.
  */
 
-/* eslint-disable */
-
 /**
  * @typedef {Object} ListenerDescriptor
  * @property {string} name The name of the event
@@ -120,9 +118,7 @@ export default class Observer {
    */
   once(event, handler) {
     const fn = (...args) => {
-      /*  eslint-disable no-invalid-this */
       handler.apply(this, args);
-      /*  eslint-enable no-invalid-this */
       setTimeout(() => {
         this.un(event, fn);
       }, 0);
