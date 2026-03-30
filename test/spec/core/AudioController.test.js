@@ -86,28 +86,6 @@ describe('controller', () => {
       });
     });
 
-    describe('#refreshRate', () => {
-      let controller;
-
-      describe('when #refreshRate = undefined', () => {
-        beforeEach(() => {
-          controller = new Controller();
-        });
-        it('sets #refreshRate=250 (default)', () => {
-          expect(controller.refreshRate).equal(250);
-        });
-      });
-
-      describe('when #refreshRate = 500', () => {
-        beforeEach(() => {
-          controller = new Controller({ refreshRate: 500 });
-        });
-        it('sets #refreshRate=100', () => {
-          expect(controller.refreshRate).equal(500);
-        });
-      });
-    });
-
     describe('#destination', () => {
       describe('when #destination = undefined (default)', () => {
         it('uses the #ac destination', () => {
@@ -377,7 +355,7 @@ describe('controller', () => {
     let controller;
 
     beforeEach(async () => {
-      controller = new Controller({ refreshRate: 100 });
+      controller = new Controller();
       controller.observe({ duration: 10, end: 10, destroy: () => {} });
       await controller.play();
     });

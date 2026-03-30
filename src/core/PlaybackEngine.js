@@ -1,4 +1,10 @@
+/**
+ * Drives play, pause, buffering, and the periodic playback engine tick.
+ */
 export default class PlaybackEngine {
+  /**
+   * @param {import('./AudioController.js').default} controller
+   */
   constructor(controller) {
     this.controller = controller;
     this.isBuffering = false;
@@ -6,6 +12,11 @@ export default class PlaybackEngine {
     this.tEngineNext = null;
   }
 
+  /**
+   * Resumes the audio context when playback is allowed and emits the start event.
+   *
+   * @returns {Promise<void>}
+   */
   async play() {
     this.desiredState = 'resumed';
 
@@ -24,12 +35,20 @@ export default class PlaybackEngine {
     this.controller.fireEvent('start');
   }
 
+  /**
+   * Suspends the audio context and emits the pause event.
+   *
+   * @returns {Promise<void>}
+   */
   async pause() {
     this.desiredState = 'suspended';
     if (this.controller.ac.state !== 'suspended') await this.controller.ac.suspend();
     this.controller.fireEvent('pause');
   }
 
+  /**
+   * Restarts the playback engine tick loop.
+   */
   tick() {
     this.untick();
 
@@ -37,6 +56,11 @@ export default class PlaybackEngine {
     this._engineTick();
   }
 
+  /**
+   * Performs a single playback engine cycle and schedules the next wake-up.
+   *
+   * @private
+   */
   _engineTick() {
     if (this.tEngineNext) clearTimeout(this.tEngineNext);
     this.tEngineNext = null;
@@ -115,24 +139,38 @@ export default class PlaybackEngine {
     }
   }
 
+  /**
+   * Cancels any pending engine wake-up.
+   */
   untick() {
     if (this.tEngineNext) clearTimeout(this.tEngineNext);
 
     this.tEngineNext = null;
   }
 
+  /**
+   * Marks playback as buffering and suspends the audio context if needed.
+   */
   bufferingStart() {
     this.controller.fireEvent('pause-start');
     this.isBuffering = true;
     if (this.controller.ac.state === 'running') this.controller.ac.suspend();
   }
 
+  /**
+   * Ends buffering and resumes playback when playback is still desired.
+   */
   bufferingEnd() {
     if (this.desiredState === 'resumed') this.controller.ac.resume();
     this.isBuffering = false;
     this.controller.fireEvent('pause-end');
   }
 
+  /**
+   * Resets playback back to a suspended, unanchored state.
+   *
+   * @returns {Promise<void>}
+   */
   async reset() {
     await this.pause();
     this.controller.timeline.adjustedStart = undefined;

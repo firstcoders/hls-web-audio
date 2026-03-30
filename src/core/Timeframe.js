@@ -1,11 +1,30 @@
 /**
- * @class Timeframe
+ * Stores a normalized snapshot of playback timing data and exposes scheduling helpers.
  */
 export default class Timeframe {
+  /**
+   * @param {Object} [options]
+   * @param {number} [options.adjustedStart]
+   * @param {number} [options.adjustedEnd]
+   * @param {number} [options.currentTime]
+   * @param {number} [options.playDuration]
+   * @param {number} [options.offset]
+   */
   constructor({ adjustedStart, adjustedEnd, currentTime, playDuration, offset } = {}) {
     this.update({ adjustedStart, adjustedEnd, currentTime, playDuration, offset });
   }
 
+  /**
+   * Updates the snapshot values in place.
+   *
+   * @param {Object} options
+   * @param {number} [options.adjustedStart]
+   * @param {number} [options.adjustedEnd]
+   * @param {number} [options.currentTime]
+   * @param {number} [options.playDuration]
+   * @param {number} [options.offset]
+   * @returns {Timeframe}
+   */
   update({ adjustedStart, adjustedEnd, currentTime, playDuration, offset }) {
     if (adjustedStart !== undefined) this.adjustedStart = adjustedStart;
     this.adjustedEnd = adjustedEnd;
@@ -61,6 +80,11 @@ export default class Timeframe {
     return offset;
   }
 
+  /**
+   * Returns the absolute track-time end bound for this timeframe.
+   *
+   * @returns {number}
+   */
   get end() {
     return this.offset + this.playDuration;
   }

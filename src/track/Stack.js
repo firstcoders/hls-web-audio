@@ -1,3 +1,6 @@
+/**
+ * Doubly linked list of audio segments with helpers for timeline lookups and cache eviction.
+ */
 export default class Stack {
   head = null;
   tail = null;
@@ -9,11 +12,17 @@ export default class Stack {
 
   #lastAccessed = null;
 
+  /**
+   * @param {{ start?: number }} [options]
+   */
   constructor({ start = 0 } = {}) {
     this.initialStartTime = start;
     this.startPointer = start;
   }
 
+  /**
+   * Destroys all segments and clears the linked list.
+   */
   destroy() {
     let current = this.head;
     while (current) {
@@ -26,6 +35,11 @@ export default class Stack {
     this.#lastAccessed = null;
   }
 
+  /**
+   * Appends segments and recalculates their absolute start times.
+   *
+   * @param {...any} elements
+   */
   push(...elements) {
     elements.forEach((s) => {
       s.start = this.startPointer;
@@ -45,26 +59,56 @@ export default class Stack {
     });
   }
 
+  /**
+   * Returns the duration implied by the appended segments.
+   *
+   * @returns {number}
+   */
   get audioDuration() {
     return this.startPointer;
   }
 
+  /**
+   * Returns the overridden duration when present, otherwise the computed audio duration.
+   *
+   * @returns {number}
+   */
   get duration() {
     return this.#duration || this.audioDuration;
   }
 
+  /**
+   * Sets an explicit duration override.
+   *
+   * @param {number|undefined} duration
+   */
   set duration(duration) {
     this.#duration = duration;
   }
 
+  /**
+   * Returns the first segment in the linked list.
+   *
+   * @returns {any}
+   */
   get first() {
     return this.head;
   }
 
+  /**
+   * Marks a segment as no longer in transit.
+   *
+   * @param {any} element
+   */
   ack(element) {
     element.$inTransit = false;
   }
 
+  /**
+   * Disconnects or cancels all segments, optionally preserving nearby loads during a seek.
+   *
+   * @param {import('../core/Timeframe.js').default|null} [timeframe=null]
+   */
   disconnectAll(timeframe = null) {
     let current = this.head;
     while (current) {
@@ -95,6 +139,12 @@ export default class Stack {
     }
   }
 
+  /**
+   * Returns the segment covering the given track time.
+   *
+   * @param {number} t
+   * @returns {any}
+   */
   getAt(t) {
     let current = this.#lastAccessed || this.head;
     if (!current) return undefined;
@@ -117,6 +167,11 @@ export default class Stack {
     return undefined;
   }
 
+  /**
+   * Recalculates absolute segment start times from the given segment onward.
+   *
+   * @param {any} [fromSegment=this.head]
+   */
   recalculateStartTimes(fromSegment = this.head) {
     if (!fromSegment) {
       this.startPointer = this.initialStartTime;
@@ -137,19 +192,39 @@ export default class Stack {
     }
   }
 
+  /**
+   * Sets the initial track start offset and recomputes segment timings.
+   *
+   * @param {number} start
+   */
   set start(start) {
     this.initialStartTime = start;
     this.recalculateStartTimes();
   }
 
+  /**
+   * Returns the initial track start offset.
+   *
+   * @returns {number}
+   */
   get start() {
     return this.initialStartTime;
   }
 
+  /**
+   * Stores the current offset metadata.
+   *
+   * @param {number} offset
+   */
   set offset(offset) {
     this._offset = offset;
   }
 
+  /**
+   * Returns the stored offset metadata.
+   *
+   * @returns {number}
+   */
   get offset() {
     return this._offset;
   }

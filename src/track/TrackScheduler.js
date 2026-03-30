@@ -1,12 +1,22 @@
+/**
+ * Schedules segment loading and connection around the current playback timeframe.
+ */
 export default class TrackScheduler {
   #scheduleNotBefore;
   #timeoutId;
 
+  /**
+   * @param {import('./Track.js').default} track
+   * @param {import('./Stack.js').default} stack
+   */
   constructor(track, stack) {
     this.track = track;
     this.stack = stack;
   }
 
+  /**
+   * Clears scheduling state and disconnects all segments.
+   */
   reset() {
     this.stack.disconnectAll();
     this.#scheduleNotBefore = undefined;
@@ -16,6 +26,13 @@ export default class TrackScheduler {
     }
   }
 
+  /**
+   * Runs a scheduling pass for the current timeframe.
+   *
+   * @param {import('../core/Timeframe.js').default} timeframe
+   * @param {boolean} [force]
+   * @returns {Promise<void>}
+   */
   async runSchedulePass(timeframe, force) {
     if (this.#timeoutId) {
       clearTimeout(this.#timeoutId);
@@ -58,6 +75,12 @@ export default class TrackScheduler {
     this.#queueNextPass(timeframe);
   }
 
+  /**
+   * Queues the next scheduler pass based on the current scheduling boundary.
+   *
+   * @param {import('../core/Timeframe.js').default} timeframe
+   * @private
+   */
   #queueNextPass(timeframe) {
     // Guard against being called after the track has been destroyed (controller or ac may
     // be null after destroy()).
@@ -100,6 +123,13 @@ export default class TrackScheduler {
     }, waitMs);
   }
 
+  /**
+   * Ensures a specific segment is loaded and connected for the active timeframe.
+   *
+   * @param {import('../core/Timeframe.js').default} timeframe
+   * @param {any} segment
+   * @returns {Promise<void>}
+   */
   async scheduleAt(timeframe, segment) {
     try {
       this.track.controller?.notify('loading-start', this.track);
@@ -134,6 +164,13 @@ export default class TrackScheduler {
     }
   }
 
+  /**
+   * Returns segments that should be loaded within the scheduler lookahead window.
+   *
+   * @param {import('../core/Timeframe.js').default} timeframe
+   * @param {any} currentSegment
+   * @returns {Array<any>}
+   */
   getNextSegments(timeframe, currentSegment) {
     if (!currentSegment) return [];
 
@@ -167,6 +204,11 @@ export default class TrackScheduler {
     return segments;
   }
 
+  /**
+   * Unloads decoded audio caches outside the immediate playback window.
+   *
+   * @param {any} currentSegment
+   */
   evictOldCaches(currentSegment) {
     if (!currentSegment) return;
 
