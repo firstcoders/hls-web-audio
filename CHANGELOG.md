@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-beta.0](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.5.1-beta.0...@firstcoders/hls-web-audio@3.0.0-beta.0) (2026-03-30)
+
+
+### Bug Fixes
+
+* address Copilot review feedback across tests, docs, and scheduler/buffer logic ([dfdc829](https://github.com/soundws/hls-web-audio/commit/dfdc829ea31589839983360481891f9a8165436e))
+* **hls-web-audio:** break currentTime/fixAdjustedStart infinite recursion ([e581d2f](https://github.com/soundws/hls-web-audio/commit/e581d2fc52fab408fcd229db2b11af8d962846c0))
+* **hls-web-audio:** harden disconnectAll and scheduler null guards ([f644b92](https://github.com/soundws/hls-web-audio/commit/f644b92e5fbf1c57d52c42ad8a793a3d42676abe))
+* **hls-web-audio:** improve iOS silent-switch bypass reliability ([5f4ca4a](https://github.com/soundws/hls-web-audio/commit/5f4ca4a29529b59f96ea0ccc68289ff4152d8bb6))
+* **hls-web-audio:** lint ([89db732](https://github.com/soundws/hls-web-audio/commit/89db7324b075e9452364d7dea91cf1df7504c535))
+* **hls-web-audio:** lint ([d219327](https://github.com/soundws/hls-web-audio/commit/d219327e7c7ad984e072a0989f943875fab3cde9))
+* **hls-web-audio:** remove explicit ac.resume() in iOS unmute to defer to engine ([978d93c](https://github.com/soundws/hls-web-audio/commit/978d93cb388725f9a0e329e20d745b46eb6ef9d8))
+* **hls-web-audio:** reschedule tracks and expose atomic region setter ([bb20bce](https://github.com/soundws/hls-web-audio/commit/bb20bce55955d8cd7cde00051bf261191907e108))
+* **hls-web-audio:** stabilize loop boundary handling and scheduler recovery ([4a276ee](https://github.com/soundws/hls-web-audio/commit/4a276eeb27b9f6a3b3d39895b81feeb260089fe8))
+
+
+### Code Refactoring
+
+* **hls-web-audio:** split runtime into core and track layers, and align with UI-owned tickingi ([9e5373b](https://github.com/soundws/hls-web-audio/commit/9e5373ba6c2a2c26b942032247141ac4b1a01c34))
+
+
+### Features
+
+* **hls-web-audio:** export AudioContext, unmuteAudioContext, and isIOS to allow early initialization ([e5d10b6](https://github.com/soundws/hls-web-audio/commit/e5d10b649cd3806567eb9c7c5a5b7120f06a9d3b))
+
+
+### BREAKING CHANGES
+
+* **hls-web-audio:** hls-web-audio no longer provides a built-in high-frequency UI progress/timeupdate render loop. Consumers must drive visual progress updates in the UI layer (for example with requestAnimationFrame) by reading controller.currentTime and controller.pct.
+
+
+
+
+
 ## [2.5.1-beta.0](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.5.0...@firstcoders/hls-web-audio@2.5.1-beta.0) (2025-12-24)
 
 **Note:** Version bump only for package @firstcoders/hls-web-audio
