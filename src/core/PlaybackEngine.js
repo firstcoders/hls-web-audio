@@ -28,8 +28,8 @@ export default class PlaybackEngine {
       await this.controller.ac.resume();
     }
 
-    if (typeof this.controller.timeline.adjustedStart !== 'number') {
-      this.controller.timeline.fixAdjustedStart(this.controller.offset);
+    if (typeof this.controller.timeline.anchor !== 'number') {
+      this.controller.timeline.fixAnchor(this.controller.offset);
     }
 
     this.controller.fireEvent('start');
@@ -75,7 +75,7 @@ export default class PlaybackEngine {
     // This replaces the old getter-mutations in PlaybackTimeline.currentTime
     if (t !== undefined) {
       if (t < this.controller.offset) {
-        this.controller.timeline.fixAdjustedStart(this.controller.offset);
+        this.controller.timeline.fixAnchor(this.controller.offset);
         this.tEngineNext = setTimeout(() => this._engineTick(), 10);
         return;
       }
@@ -86,7 +86,7 @@ export default class PlaybackEngine {
 
       if (isEffectivelyAtEnd) {
         if (this.controller.loop) {
-          this.controller.timeline.fixAdjustedStart(this.controller.offset);
+          this.controller.timeline.fixAnchor(this.controller.offset);
           this.tEngineNext = setTimeout(() => this._engineTick(), 10);
           return;
         }
@@ -173,7 +173,7 @@ export default class PlaybackEngine {
    */
   async reset() {
     await this.pause();
-    this.controller.timeline.adjustedStart = undefined;
+    this.controller.timeline.anchor = undefined;
     this.desiredState = 'suspended';
   }
 }

@@ -208,7 +208,7 @@ describe('hls', () => {
     beforeEach(async () => {
       hls = new HLS();
       await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
-      hls.controller.adjustedStart = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
+      hls.controller.anchor = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
     });
 
     afterEach(() => hls.destroy());
@@ -243,7 +243,7 @@ describe('hls', () => {
       beforeEach(async () => {
         hls = new HLS();
         await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
-        hls.controller.adjustedStart = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
+        hls.controller.anchor = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
       });
 
       it('loads the current segment and connects it', async () => {
@@ -261,7 +261,7 @@ describe('hls', () => {
         beforeEach(async () => {
           hls = new HLS();
           await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
-          hls.controller.adjustedStart = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
+          hls.controller.anchor = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
           await hls.runSchedulePass(); // loads the current one, so the next call should load the next segment
         });
 
@@ -283,7 +283,7 @@ describe('hls', () => {
         beforeEach(async () => {
           hls = new HLS();
           await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
-          hls.controller.adjustedStart = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
+          hls.controller.anchor = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
         });
 
         it('does nothing', async () => {
@@ -355,7 +355,7 @@ describe('hls', () => {
     beforeEach(async () => {
       hls = new HLS();
       await hls.load('http://localhost:9876/test/fixtures/stem1.m3u8').promise;
-      hls.controller.adjustedStart = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
+      hls.controller.anchor = -10; // seek to 10. NOTE: if we seek using .currentTime it will trigger a seek event which will cause a runSchedulePass
     });
 
     it('returns false the current segment is not ready', () => {

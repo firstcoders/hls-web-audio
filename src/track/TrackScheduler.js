@@ -141,7 +141,7 @@ export default class TrackScheduler {
 
       const start = timeframe.calculateRealStart(segment);
       const offset = timeframe.calculateOffset(segment);
-      const stop = timeframe.adjustedEnd;
+      const stop = timeframe.realEnd;
 
       // connect it to the audio
       await segment.connect({

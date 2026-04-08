@@ -18,15 +18,15 @@ export default class PlaybackTimeline {
   /**
    * @returns {number|undefined}
    */
-  get adjustedStart() {
-    return this.timeframe.adjustedStart;
+  get anchor() {
+    return this.timeframe.anchor;
   }
 
   /**
    * @param {number|undefined} v
    */
-  set adjustedStart(v) {
-    this.timeframe.adjustedStart = v;
+  set anchor(v) {
+    this.timeframe.anchor = v;
   }
 
   /**
@@ -103,9 +103,7 @@ export default class PlaybackTimeline {
    * @returns {number|undefined}
    */
   get rawCurrentTime() {
-    return this.adjustedStart !== undefined
-      ? this.controller.ac.currentTime - this.adjustedStart
-      : undefined;
+    return this.anchor !== undefined ? this.controller.ac.currentTime - this.anchor : undefined;
   }
 
   /**
@@ -131,7 +129,7 @@ export default class PlaybackTimeline {
       seekTo = this.offset;
     }
 
-    this.fixAdjustedStart(seekTo);
+    this.fixAnchor(seekTo);
 
     this.controller.ac.suspend().then(() => {
       if (this.controller.desiredState === 'resumed' && !this.controller.engine.isBuffering) {
@@ -147,8 +145,8 @@ export default class PlaybackTimeline {
    */
   get currentTimeframe() {
     return this.timeframe.update({
-      adjustedStart: this.adjustedStart,
-      adjustedEnd: this.adjustedEnd,
+      anchor: this.anchor,
+      realEnd: this.realEnd,
       currentTime: this.currentTime,
       playDuration: this.playDuration,
       offset: this.offset,
@@ -160,7 +158,7 @@ export default class PlaybackTimeline {
    *
    * @param {number} t
    */
-  fixAdjustedStart(t) {
+  fixAnchor(t) {
     this.timeframe.setAnchor(this.controller.ac.currentTime, t);
 
     this.controller.fireEvent('seek', {
@@ -201,7 +199,7 @@ export default class PlaybackTimeline {
   /**
    * @returns {number}
    */
-  get adjustedEnd() {
-    return this.adjustedStart + this.offset + this.playDuration;
+  get realEnd() {
+    return this.anchor + this.offset + this.playDuration;
   }
 }

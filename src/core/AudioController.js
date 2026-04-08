@@ -23,7 +23,8 @@ export default class Controller extends Observer {
   constructor({ ac, acOpts, destination, duration, loop, unmuteAc = true } = {}) {
     super();
 
-    this.ac = ac || new AudioContext(acOpts);
+    const defaultAcOpts = { latencyHint: 'playback' };
+    this.ac = ac || new AudioContext({ ...defaultAcOpts, ...acOpts });
     if (unmuteAc && isIOS()) unmuteAudioContext(this.ac);
     this.closeAcOnDestroy = !ac;
     this.destination = destination || this.ac.destination;
@@ -297,8 +298,8 @@ export default class Controller extends Observer {
    *
    * @returns {number}
    */
-  get adjustedEnd() {
-    return this.timeline.adjustedEnd;
+  get realEnd() {
+    return this.timeline.realEnd;
   }
 
   /**
@@ -306,8 +307,8 @@ export default class Controller extends Observer {
    *
    * @returns {number|undefined}
    */
-  get adjustedStart() {
-    return this.timeline.adjustedStart;
+  get anchor() {
+    return this.timeline.anchor;
   }
 
   /**
@@ -315,8 +316,8 @@ export default class Controller extends Observer {
    *
    * @param {number|undefined} v
    */
-  set adjustedStart(v) {
-    this.timeline.adjustedStart = v;
+  set anchor(v) {
+    this.timeline.anchor = v;
   }
 
   /**

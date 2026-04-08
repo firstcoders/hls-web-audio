@@ -4,30 +4,30 @@
 export default class Timeframe {
   /**
    * @param {Object} [options]
-   * @param {number} [options.adjustedStart]
-   * @param {number} [options.adjustedEnd]
+   * @param {number} [options.anchor]
+   * @param {number} [options.realEnd]
    * @param {number} [options.currentTime]
    * @param {number} [options.playDuration]
    * @param {number} [options.offset]
    */
-  constructor({ adjustedStart, adjustedEnd, currentTime, playDuration, offset } = {}) {
-    this.update({ adjustedStart, adjustedEnd, currentTime, playDuration, offset });
+  constructor({ anchor, realEnd, currentTime, playDuration, offset } = {}) {
+    this.update({ anchor, realEnd, currentTime, playDuration, offset });
   }
 
   /**
    * Updates the snapshot values in place.
    *
    * @param {Object} options
-   * @param {number} [options.adjustedStart]
-   * @param {number} [options.adjustedEnd]
+   * @param {number} [options.anchor]
+   * @param {number} [options.realEnd]
    * @param {number} [options.currentTime]
    * @param {number} [options.playDuration]
    * @param {number} [options.offset]
    * @returns {Timeframe}
    */
-  update({ adjustedStart, adjustedEnd, currentTime, playDuration, offset }) {
-    if (adjustedStart !== undefined) this.adjustedStart = adjustedStart;
-    this.adjustedEnd = adjustedEnd;
+  update({ anchor, realEnd, currentTime, playDuration, offset }) {
+    if (anchor !== undefined) this.anchor = anchor;
+    this.realEnd = realEnd;
     this.currentTime = currentTime;
     this.playDuration = playDuration;
     this.offset = offset;
@@ -35,11 +35,11 @@ export default class Timeframe {
   }
 
   /**
-   * Recalculates the internal adjustedStart base time using a given context time and target track time
+   * Recalculates the internal anchor base time using a given context time and target track time
    */
   setAnchor(contextTime, trackTime) {
-    this.adjustedStart = contextTime - trackTime;
-    return this.adjustedStart;
+    this.anchor = contextTime - trackTime;
+    return this.anchor;
   }
 
   /**
@@ -55,7 +55,7 @@ export default class Timeframe {
    * @returns {Integer|undefined}
    */
   calculateRealStart({ start }) {
-    let realStart = this.adjustedStart + start;
+    let realStart = this.anchor + start;
 
     if (realStart < 0) realStart = 0;
 

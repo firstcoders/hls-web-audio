@@ -16,7 +16,7 @@ arms a single timeout, and sleeps until then.
 
 | Class              | Role                                                                                                            |
 | ------------------ | --------------------------------------------------------------------------------------------------------------- |
-| `PlaybackTimeline` | Tracks the playhead anchor (`adjustedStart`) and computes `currentTime` as a pure read                          |
+| `PlaybackTimeline` | Tracks the playhead anchor (`anchor`) and computes `currentTime` as a pure read                          |
 | `Timeframe`        | Snapshot of timing parameters used for Web Audio scheduling math; owns the anchor calculation via `setAnchor()` |
 | `PlaybackEngine`   | Monitors readiness; enforces loop and boundary transitions; triggers buffering recovery                         |
 | `TrackScheduler`   | Per-track lookahead scheduler; manages the precomputed wake-up boundary                                         |
@@ -25,20 +25,20 @@ arms a single timeout, and sleeps until then.
 
 ---
 
-## Time Anchor (`adjustedStart`)
+## Time Anchor (`anchor`)
 
 Because `AudioContext.currentTime` ticks continuously and cannot be reset, we
 tie playhead position to the global clock via an anchor:
 
 ```
-currentTime = AudioContext.currentTime - adjustedStart
+currentTime = AudioContext.currentTime - anchor
 ```
 
-`adjustedStart` is set once at play start and reset on every seek or loop wrap:
+`anchor` is set once at play start and reset on every seek or loop wrap:
 
 ```js
 // Timeframe.setAnchor(contextTime, trackTime)
-this.adjustedStart = contextTime - trackTime;
+this.anchor = contextTime - trackTime;
 ```
 
 `PlaybackTimeline.currentTime` is a **pure read** — it never mutates state or
@@ -163,9 +163,9 @@ load (if not cached) → decode → connect source node into audio graph
 Timing parameters are derived from `Timeframe`:
 
 ```js
-start = timeframe.calculateRealStart(segment); // adjustedStart + segment.start
+start = timeframe.calculateRealStart(segment); // anchor + segment.start
 offset = timeframe.calculateOffset(segment); // currentTime - segment.start, clamped to 0
-stop = timeframe.adjustedEnd; // adjustedStart + offset + playDuration
+stop = timeframe.realEnd; // anchor + offset + playDuration
 ```
 
 A `Symbol` connection guard (`$currentConnection`) prevents stale in-flight
@@ -177,7 +177,7 @@ and is silently ignored.
 
 ## Seek and Region Changes
 
-On any seek (`fixAdjustedStart`):
+On any seek (`fixAnchor`):
 
 1. The anchor is reset to `contextTime - seekTarget` via `Timeframe.setAnchor`.
 2. A `'seek'` event is fired with the requested `t`, `pct`, and `remaining`.
