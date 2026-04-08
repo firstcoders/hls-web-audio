@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0-beta.1](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@3.0.0-beta.0...@firstcoders/hls-web-audio@3.0.0-beta.1) (2026-04-08)
+
+
+### Bug Fixes
+
+* **hls-web-audio:** latencyhint playback ([770485a](https://github.com/soundws/hls-web-audio/commit/770485a5ca598f56ea6348de8d5775dba8df3b75))
+
+
+
+
+
 # [3.0.0-beta.0](https://github.com/soundws/hls-web-audio/compare/@firstcoders/hls-web-audio@2.5.1-beta.0...@firstcoders/hls-web-audio@3.0.0-beta.0) (2026-03-30)
 
 
